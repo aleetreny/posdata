@@ -1,0 +1,79 @@
+[
+  {
+    "file": "econ-placements.dta",
+    "url": "https://raw.githubusercontent.com/pablogguz/econphd_placements/main/0_data/all/scraped_data_proc.dta",
+    "bytes": 3970731,
+    "sha256": "87e05e12ae23590dd72cf3b89f9fdc0f33152b07f32349392b81cc7d1a62ba57",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "sed-2024.zip",
+    "url": "https://ncses.nsf.gov/pubs/nsf25349/assets/data-tables/nsf25349-data-tables-tables-excels.zip",
+    "bytes": 1164680,
+    "sha256": "e2c6b8d4c7dc7387fa5ff58eb075fbf1e4cf6d207dc77f3da3e32da789685663",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "sdr-2023.zip",
+    "url": "https://ncses.nsf.gov/pubs/nsf25321/assets/data-tables/nsf25321-data-tables-tables-excels.zip",
+    "bytes": 1260725,
+    "sha256": "851bc6263f7835d64790b3213181eef067ea781b6f6a0820b8bc7d00a18f9764",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "france-disciplines.json",
+    "url": "https://data.enseignementsup-recherche.gouv.fr/api/explore/v2.1/catalog/datasets/fr-esr-insertion-professionnelle-doctorat-par-discipline/exports/json",
+    "bytes": 160672,
+    "sha256": "2439aa1a5c2ea094284b1bdb6575bc4c97982e8ddd2485a7fdc44c8faa2fb172",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "france-institutions.json",
+    "url": "https://data.enseignementsup-recherche.gouv.fr/api/explore/v2.1/catalog/datasets/fr-esr-insertion-professionnelle-des-diplomes-doctorat-par-etablissement/exports/json",
+    "bytes": 1310793,
+    "sha256": "a7493c410cbab81f0d9427563c21ce7c55635f380e448dc1d372f1db89406cfb",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "ucsd.html",
+    "url": "https://economics.ucsd.edu/graduate-program/jobmarket-tab/placement-history.html",
+    "bytes": 207963,
+    "sha256": "60402e739e153e851a5890c2249f38c3264ab7a7c7aa00e9702efcee12669a81",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "econ-license.txt",
+    "url": "https://raw.githubusercontent.com/pablogguz/econphd_placements/main/LICENSE.md",
+    "bytes": 1066,
+    "sha256": "90232cca3e6fc220a69b8cfce435ad1ec7bc746646812556c9838684f8c08508",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "leo-2023-24.zip",
+    "url": "https://content.explore-education-statistics.service.gov.uk/api/releases/b018e5c2-81fd-4640-b3f8-cb63633cf3a0/files?fromPage=ReleaseDownloads",
+    "bytes": 73231830,
+    "sha256": "f38c361bb380cc3b0f341486c531b983957ec31412462fe0ad4f5421962e069b",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "leo.html",
+    "url": "https://explore-education-statistics.service.gov.uk/find-statistics/graduate-labour-market-outcomes-leo/2023-24",
+    "bytes": 695836,
+    "sha256": "7e38f5ba54667991321675417efa4c438e7d8446a245bca281b1f33cee6f31cd",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "trace-2024.pdf",
+    "url": "https://www.mcgill.ca/trace/files/trace/trace_transborder_quantitative_report_june_10_2024_final.pdf",
+    "bytes": 1943440,
+    "sha256": "0125a9a6e5ff9ec7c647af66f63bc89b5bdff98f21281d76e5d5a3373b52f667",
+    "retrieved": "2026-09-19"
+  },
+  {
+    "file": "aarhus-2025.pdf",
+    "url": "https://phd.au.dk/fileadmin/phd/Quality_in_PhD_education/Employment_Studies_for_PhD_graduates/PhD_report_2025.pdf",
+    "bytes": 1482907,
+    "sha256": "e12437b4fb7761c488eaef334493d101103dbf10bb0740741f770e5fdc87fb9f",
+    "retrieved": "2026-09-19"
+  }
+]

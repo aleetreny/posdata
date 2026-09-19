@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-19T13:47:23.256405Z",
+  "title": "Design System: Posdata",
+  "extensions": {
+    "colorMeta": {
+      "blue": {
+        "role": "primary",
+        "displayName": "Signage Cobalt",
+        "tonalRamp": [
+          "oklch(15% 0.1618 262.02)",
+          "oklch(26% 0.1618 262.02)",
+          "oklch(38% 0.1618 262.02)",
+          "oklch(49% 0.1618 262.02)",
+          "oklch(61% 0.1618 262.02)",
+          "oklch(72% 0.1618 262.02)",
+          "oklch(84% 0.1618 262.02)",
+          "oklch(95% 0.1618 262.02)"
+        ]
+      },
+      "blue-hover": {
+        "role": "primary",
+        "displayName": "Cobalt Hover",
+        "tonalRamp": [
+          "oklch(15% 0.1280 261.47)",
+          "oklch(26% 0.1280 261.47)",
+          "oklch(38% 0.1280 261.47)",
+          "oklch(49% 0.1280 261.47)",
+          "oklch(61% 0.1280 261.47)",
+          "oklch(72% 0.1280 261.47)",
+          "oklch(84% 0.1280 261.47)",
+          "oklch(95% 0.1280 261.47)"
+        ]
+      },
+      "lime": {
+        "role": "primary",
+        "displayName": "Locator Lime",
+        "tonalRamp": [
+          "oklch(15% 0.1700 110.37)",
+          "oklch(26% 0.1700 110.37)",
+          "oklch(38% 0.1700 110.37)",
+          "oklch(49% 0.1700 110.37)",
+          "oklch(61% 0.1700 110.37)",
+          "oklch(72% 0.1700 110.37)",
+          "oklch(84% 0.1700 110.37)",
+          "oklch(95% 0.1700 110.37)"
+        ]
+      },
+      "teal": {
+        "role": "secondary",
+        "displayName": "Route Teal",
+        "tonalRamp": [
+          "oklch(15% 0.0843 192.77)",
+          "oklch(26% 0.0843 192.77)",
+          "oklch(38% 0.0843 192.77)",
+          "oklch(49% 0.0843 192.77)",
+          "oklch(61% 0.0843 192.77)",
+          "oklch(72% 0.0843 192.77)",
+          "oklch(84% 0.0843 192.77)",
+          "oklch(95% 0.0843 192.77)"
+        ]
+      },
+      "route-plum": {
+        "role": "tertiary",
+        "displayName": "Route Plum",
+        "tonalRamp": [
+          "oklch(15% 0.1317 339.27)",
+          "oklch(26% 0.1317 339.27)",
+          "oklch(38% 0.1317 339.27)",
+          "oklch(49% 0.1317 339.27)",
+          "oklch(61% 0.1317 339.27)",
+          "oklch(72% 0.1317 339.27)",
+          "oklch(84% 0.1317 339.27)",
+          "oklch(95% 0.1317 339.27)"
+        ]
+      },
+      "route-ochre": {
+        "role": "tertiary",
+        "displayName": "Route Ochre",
+        "tonalRamp": [
+          "oklch(15% 0.1213 62.64)",
+          "oklch(26% 0.1213 62.64)",
+          "oklch(38% 0.1213 62.64)",
+          "oklch(49% 0.1213 62.64)",
+          "oklch(61% 0.1213 62.64)",
+          "oklch(72% 0.1213 62.64)",
+          "oklch(84% 0.1213 62.64)",
+          "oklch(95% 0.1213 62.64)"
+        ]
+      },
+      "route-slate": {
+        "role": "tertiary",
+        "displayName": "Route Slate",
+        "tonalRamp": [
+          "oklch(15% 0.0355 257.27)",
+          "oklch(26% 0.0355 257.27)",
+          "oklch(38% 0.0355 257.27)",
+          "oklch(49% 0.0355 257.27)",
+          "oklch(61% 0.0355 257.27)",
+          "oklch(72% 0.0355 257.27)",
+          "oklch(84% 0.0355 257.27)",
+          "oklch(95% 0.0355 257.27)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Cool Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0045 134.85)",
+          "oklch(26% 0.0045 134.85)",
+          "oklch(38% 0.0045 134.85)",
+          "oklch(49% 0.0045 134.85)",
+          "oklch(61% 0.0045 134.85)",
+          "oklch(72% 0.0045 134.85)",
+          "oklch(84% 0.0045 134.85)",
+          "oklch(95% 0.0045 134.85)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "tonalRamp": [
+          "oklch(15% 0.0000 0.00)",
+          "oklch(26% 0.0000 0.00)",
+          "oklch(38% 0.0000 0.00)",
+          "oklch(49% 0.0000 0.00)",
+          "oklch(61% 0.0000 0.00)",
+          "oklch(72% 0.0000 0.00)",
+          "oklch(84% 0.0000 0.00)",
+          "oklch(95% 0.0000 0.00)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0484 243.53)",
+          "oklch(26% 0.0484 243.53)",
+          "oklch(38% 0.0484 243.53)",
+          "oklch(49% 0.0484 243.53)",
+          "oklch(61% 0.0484 243.53)",
+          "oklch(72% 0.0484 243.53)",
+          "oklch(84% 0.0484 243.53)",
+          "oklch(95% 0.0484 243.53)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Quiet Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0289 233.54)",
+          "oklch(26% 0.0289 233.54)",
+          "oklch(38% 0.0289 233.54)",
+          "oklch(49% 0.0289 233.54)",
+          "oklch(61% 0.0289 233.54)",
+          "oklch(72% 0.0289 233.54)",
+          "oklch(84% 0.0289 233.54)",
+          "oklch(95% 0.0289 233.54)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Ledger Rule",
+        "tonalRamp": [
+          "oklch(15% 0.0110 204.11)",
+          "oklch(26% 0.0110 204.11)",
+          "oklch(38% 0.0110 204.11)",
+          "oklch(49% 0.0110 204.11)",
+          "oklch(61% 0.0110 204.11)",
+          "oklch(72% 0.0110 204.11)",
+          "oklch(84% 0.0110 204.11)",
+          "oklch(95% 0.0110 204.11)"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel Wash",
+        "tonalRamp": [
+          "oklch(15% 0.0075 164.93)",
+          "oklch(26% 0.0075 164.93)",
+          "oklch(38% 0.0075 164.93)",
+          "oklch(49% 0.0075 164.93)",
+          "oklch(61% 0.0075 164.93)",
+          "oklch(72% 0.0075 164.93)",
+          "oklch(84% 0.0075 164.93)",
+          "oklch(95% 0.0075 164.93)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface Wash",
+        "tonalRamp": [
+          "oklch(15% 0.0084 168.75)",
+          "oklch(26% 0.0084 168.75)",
+          "oklch(38% 0.0084 168.75)",
+          "oklch(49% 0.0084 168.75)",
+          "oklch(61% 0.0084 168.75)",
+          "oklch(72% 0.0084 168.75)",
+          "oklch(84% 0.0084 168.75)",
+          "oklch(95% 0.0084 168.75)"
+        ]
+      },
+      "soft-hover": {
+        "role": "neutral",
+        "displayName": "Soft Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0065 185.27)",
+          "oklch(26% 0.0065 185.27)",
+          "oklch(38% 0.0065 185.27)",
+          "oklch(49% 0.0065 185.27)",
+          "oklch(61% 0.0065 185.27)",
+          "oklch(72% 0.0065 185.27)",
+          "oklch(84% 0.0065 185.27)",
+          "oklch(95% 0.0065 185.27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Balanced page headings, with explicit narrow-screen overrides."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Base section hierarchy; working panels apply observed contextual sizes."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Smaller section titles in the same narrow display family."
+      },
+      "metric": {
+        "displayName": "Metric",
+        "purpose": "Prominent ledger values; pair with tabular numerals and visible units."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Explanations and prose; root size becomes 16px below 650px."
+      },
+      "supporting": {
+        "displayName": "Supporting",
+        "purpose": "Limitations, data context and source metadata."
+      },
+      "label": {
+        "displayName": "Action Label",
+        "purpose": "Primary, secondary and text actions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "selected-segment",
+        "value": "0 2px 5px #18324612",
+        "purpose": "Separate the selected white presentation segment from its washed track."
+      },
+      {
+        "name": "toast-overlay",
+        "value": "0 8px 30px #18324625",
+        "purpose": "Separate the transient dark notice from underlying content."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Existing route width and opacity easing."
+      },
+      {
+        "name": "control-transition",
+        "value": "background-color 0.16s, color 0.16s, border-color 0.16s",
+        "purpose": "Buttons and links."
+      },
+      {
+        "name": "route-transition",
+        "value": "stroke-width 0.7s var(--ease), opacity 0.3s var(--ease)",
+        "purpose": "Recomputed branches and destination selection."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition: none !important; animation: none !important; scroll-behavior: auto !important;",
+        "purpose": "Applied to elements and pseudo-elements under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-min",
+        "value": "1500px"
+      },
+      {
+        "name": "compact-desktop-max",
+        "value": "1150px"
+      },
+      {
+        "name": "two-row-header-max",
+        "value": "900px"
+      },
+      {
+        "name": "stacked-mobile-max",
+        "value": "650px"
+      },
+      {
+        "name": "narrow-mobile-max",
+        "value": "370px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Cobalt action used for a primary operation.",
+      "html": "<button class=\"ds-primary\" type=\"button\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"m7 10 5 5 5-5\"/><path d=\"M12 15V3\"/></svg>Descargar</button>",
+      "css": ".ds-primary{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 16px;border:1px solid var(--blue,#1747a6);border-radius:5px;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;font-family:\"Source Sans 3 Variable\",sans-serif;transition:background-color .16s,color .16s,border-color .16s;background:var(--blue,#1747a6);color:var(--white,#fff)}.ds-primary:hover:not(:disabled){background:#11377e;color:var(--white,#fff)}.ds-primary:focus-visible{outline:3px solid var(--blue,#1747a6);outline-offset:4px;}.ds-primary:disabled{cursor:not-allowed;opacity:.45}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outlined action for a reset, previous step or secondary operation.",
+      "html": "<button class=\"ds-secondary\" type=\"button\">Restablecer filtros</button>",
+      "css": ".ds-secondary{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 16px;border:1px solid var(--blue,#1747a6);border-radius:5px;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;font-family:\"Source Sans 3 Variable\",sans-serif;transition:background-color .16s,color .16s,border-color .16s;background:transparent;border-color:var(--line,#c8d2d3);color:var(--ink,#183246)}.ds-secondary:hover:not(:disabled){background:#e6eceb;border-color:#8c9fa8;color:var(--blue,#1747a6)}.ds-secondary:focus-visible{outline:3px solid var(--blue,#1747a6);outline-offset:4px;}.ds-secondary:disabled{cursor:not-allowed;opacity:.45}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+    },
+    {
+      "name": "Text action",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Inline cobalt action accompanying evidence.",
+      "html": "<button class=\"ds-text\" type=\"button\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"m7 10 5 5 5-5\"/><path d=\"M12 15V3\"/></svg>Descargar esta selección</button>",
+      "css": ".ds-text{font-family:\"Source Sans 3 Variable\",sans-serif;transition:background-color .16s,color .16s,border-color .16s;display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:600;padding:7px 0;background:none;border:0;color:var(--blue,#1747a6);cursor:pointer}.ds-text:hover:not(:disabled){text-decoration:underline;text-underline-offset:4px}.ds-text:focus-visible{outline:3px solid var(--blue,#1747a6);outline-offset:4px;}.ds-text:disabled{cursor:not-allowed;opacity:.45}@media(prefers-reduced-motion:reduce){.ds-text{transition:none}}"
+    },
+    {
+      "name": "Search field",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "Search input with a visible leading icon and wrapper focus treatment.",
+      "html": "<label class=\"ds-search\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input class=\"ds-search-input\" type=\"search\" aria-label=\"Buscar disciplinas\" placeholder=\"Historia, biología, física…\"></label>",
+      "css": ".ds-search{font-family:\"Source Sans 3 Variable\",sans-serif;display:flex;align-items:center;gap:8px;min-width:0;min-height:45px;padding:0 10px;border:1px solid var(--line,#c8d2d3);border-radius:5px;background:var(--white,#fff);color:var(--muted,#526570)}.ds-search:focus-within{outline:2px solid var(--blue,#1747a6);outline-offset:2px}.ds-search-input{font-family:\"Source Sans 3 Variable\",sans-serif;width:100%;min-width:0;min-height:43px;padding:6px 0;border:0;background:none;font-size:15px;color:var(--ink,#183246);caret-color:var(--blue,#1747a6)}.ds-search-input::placeholder{color:var(--muted,#526570);opacity:1}.ds-search-input:focus-visible{outline:none}.ds-search-input::-webkit-search-cancel-button{-webkit-appearance:none}"
+    },
+    {
+      "name": "Masthead navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Cobalt navigation with lime current-section text and underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegación principal\"><a class=\"ds-nav-link\" href=\"?view=atlas\" aria-current=\"page\">Explorar</a><a class=\"ds-nav-link\" href=\"?view=compare\">Comparar</a><a class=\"ds-nav-link\" href=\"?view=placements\">Destinos</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:stretch;gap:2px;min-height:84px;background:var(--blue,#1747a6);overflow-x:auto}.ds-nav-link{font-family:\"Source Sans 3 Variable\",sans-serif;transition:background-color .16s,color .16s,border-color .16s;display:flex;align-items:center;position:relative;padding:0 11px;color:var(--white,#fff);text-decoration:none;font-size:16px;font-weight:500;white-space:nowrap}.ds-nav-link:hover{background:#ffffff15}.ds-nav-link[aria-current]{color:var(--lime,#eff25a)}.ds-nav-link[aria-current]::after{content:\"\";position:absolute;bottom:15px;left:11px;right:11px;height:3px;background:var(--lime,#eff25a)}.ds-nav-link:focus-visible{outline:3px solid var(--lime,#eff25a);outline-offset:4px}@media(max-width:900px){.ds-nav{min-height:48px;gap:9px}.ds-nav-link{padding:0 9px}.ds-nav-link[aria-current]::after{bottom:0;left:9px;right:9px}}@media(prefers-reduced-motion:reduce){.ds-nav-link{transition:none}}"
+    },
+    {
+      "name": "Filter chips",
+      "kind": "chip",
+      "refersTo": "filter-chip",
+      "description": "Outlined filters use a cobalt selected state, exposed with aria-pressed.",
+      "html": "<div class=\"ds-filters\"><button class=\"ds-filter\" type=\"button\" aria-pressed=\"true\">Todas</button><button class=\"ds-filter\" type=\"button\" aria-pressed=\"false\">Industria y empresa</button></div>",
+      "css": ".ds-filters{display:flex;flex-wrap:wrap;gap:8px}.ds-filter{font-family:\"Source Sans 3 Variable\",sans-serif;transition:background-color .16s,color .16s,border-color .16s;display:flex;align-items:center;gap:7px;min-height:42px;padding:8px 13px;border:1px solid var(--line,#c8d2d3);border-radius:4px;background:transparent;color:var(--ink,#183246);font-size:15px;cursor:pointer}.ds-filter:hover{color:var(--blue,#1747a6)}.ds-filter[aria-pressed=\"true\"]{background:var(--blue,#1747a6);border-color:var(--blue,#1747a6);color:var(--white,#fff)}.ds-filter:focus-visible{outline:3px solid var(--blue,#1747a6);outline-offset:4px;}@media(max-width:650px){.ds-filter{font-size:13px;padding:8px 10px;min-height:38px}}@media(prefers-reduced-motion:reduce){.ds-filter{transition:none}}"
+    },
+    {
+      "name": "Presentation switch",
+      "kind": "custom",
+      "refersTo": "segment",
+      "description": "The map/table switch shows selection as a white inset on a washed track.",
+      "html": "<div class=\"ds-segmented\" aria-label=\"Presentación\"><button class=\"ds-segment\" type=\"button\" aria-pressed=\"true\">Mapa</button><button class=\"ds-segment\" type=\"button\" aria-pressed=\"false\">Tabla</button></div>",
+      "css": ".ds-segmented{display:inline-flex;gap:2px;padding:3px;background:#eaf0ed;border-radius:5px}.ds-segment{font-family:\"Source Sans 3 Variable\",sans-serif;transition:background-color .16s,color .16s,border-color .16s;display:flex;align-items:center;gap:6px;padding:7px 10px;min-height:35px;border:0;border-radius:3px;background:transparent;color:var(--ink,#183246);font-size:14px;cursor:pointer}.ds-segment:hover{color:var(--blue,#1747a6)}.ds-segment[aria-pressed=\"true\"]{background:var(--white,#fff);color:var(--blue,#1747a6);box-shadow:0 2px 5px #18324612}.ds-segment:focus-visible{outline:3px solid var(--blue,#1747a6);outline-offset:4px;}@media(max-width:650px){.ds-segmented{padding:2px}.ds-segment{font-size:12px;padding:6px;min-height:32px}}@media(prefers-reduced-motion:reduce){.ds-segment{transition:none}}"
+    },
+    {
+      "name": "Ruled evidence row",
+      "kind": "card",
+      "refersTo": "evidence-row",
+      "description": "Study-list container pattern, illustrated with neutral sample copy rather than an invented research claim.",
+      "html": "<article class=\"ds-evidence\"><div class=\"ds-evidence-year\">2024<span class=\"ds-evidence-meta\">Año del estudio</span></div><div class=\"ds-evidence-content\"><p class=\"ds-evidence-author\">Autoría y fuente</p><h2 class=\"ds-evidence-title\"><a class=\"ds-evidence-link\" href=\"?view=studies\">Título del estudio <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7M7 7h10v10\"/></svg></a></h2><p class=\"ds-evidence-finding\">Hallazgo, población y límites en una secuencia de lectura continua.</p></div></article>",
+      "css": ".ds-evidence{font-family:\"Source Sans 3 Variable\",sans-serif;display:grid;grid-template-columns:135px minmax(0,1fr);gap:40px;padding:30px 0;border-top:1px solid var(--line,#c8d2d3);color:var(--ink,#183246)}.ds-evidence-year{font-family:var(--display,\"Archivo Narrow Variable\",sans-serif);font-size:30px;color:var(--blue,#1747a6);font-variant-numeric:tabular-nums}.ds-evidence-meta{font-family:\"Source Sans 3 Variable\",sans-serif;display:block;font-size:13px;line-height:1.5;color:var(--muted,#526570);margin-top:9px}.ds-evidence-author{margin:0 0 8px;font-size:14px;color:var(--muted,#526570)}.ds-evidence-title{font-family:var(--display,\"Archivo Narrow Variable\",sans-serif);font-size:27px;line-height:1.22;font-weight:650;letter-spacing:-.018em;max-width:60ch;margin:0;text-wrap:balance}.ds-evidence-link{transition:background-color .16s,color .16s,border-color .16s;color:inherit;text-decoration:none}.ds-evidence-link:hover{color:var(--blue,#1747a6)}.ds-evidence-link:focus-visible{outline:3px solid var(--blue,#1747a6);outline-offset:4px;}.ds-evidence-finding{margin:15px 0;max-width:75ch;font-size:17px;line-height:1.55}@media(max-width:650px){.ds-evidence{display:block;padding:23px 0}.ds-evidence-year{display:flex;align-items:center;gap:15px;font-size:26px;margin-bottom:16px}.ds-evidence-meta{font-size:12px;margin:0}.ds-evidence-title{font-size:25px}.ds-evidence-finding{font-size:15px}}@media(prefers-reduced-motion:reduce){.ds-evidence-link{transition:none}}"
+    },
+    {
+      "name": "Branching destinations",
+      "kind": "custom",
+      "refersTo": "destination-row",
+      "description": "Static preview of the implemented route geometry using the displayed 2024 first-destination percentages; production rows reveal detail.",
+      "html": "<div class=\"ds-route-map\"><div class=\"ds-origin\"><span class=\"ds-origin-node\"></span><div class=\"ds-origin-copy\"><strong class=\"ds-origin-title\">Doctorado</strong><span class=\"ds-origin-context\">Compromiso confirmado</span></div></div><svg class=\"ds-routes\" viewBox=\"0 0 220 320\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M 0 160 C 85 160, 120 40, 220 40\" fill=\"none\" stroke=\"#1747a6\" stroke-width=\"18.912\" opacity=\".85\"/><path d=\"M 0 160 C 85 160, 120 120, 220 120\" fill=\"none\" stroke=\"#187a78\" stroke-width=\"11.520\" opacity=\".85\"/><path d=\"M 0 160 C 85 160, 120 200, 220 200\" fill=\"none\" stroke=\"#9a4883\" stroke-width=\"11.760\" opacity=\".85\"/><path d=\"M 0 160 C 85 160, 120 280, 220 280\" fill=\"none\" stroke=\"#aa661a\" stroke-width=\"5.856\" opacity=\".85\"/></svg><div class=\"ds-destinations\"><button class=\"ds-destination\" type=\"button\" aria-expanded=\"false\" style=\"--route-color:#1747a6\"><span class=\"ds-endpoint\"></span><span class=\"ds-destination-label\">Postdoc</span><strong class=\"ds-destination-value\">39.4%</strong></button><button class=\"ds-destination\" type=\"button\" aria-expanded=\"false\" style=\"--route-color:#187a78\"><span class=\"ds-endpoint\"></span><span class=\"ds-destination-label\">Empleo académico</span><strong class=\"ds-destination-value\">24.0%</strong></button><button class=\"ds-destination\" type=\"button\" aria-expanded=\"false\" style=\"--route-color:#9a4883\"><span class=\"ds-endpoint\"></span><span class=\"ds-destination-label\">Industria y empresa</span><strong class=\"ds-destination-value\">24.5%</strong></button><button class=\"ds-destination\" type=\"button\" aria-expanded=\"false\" style=\"--route-color:#aa661a\"><span class=\"ds-endpoint\"></span><span class=\"ds-destination-label\">Otros destinos</span><strong class=\"ds-destination-value\">12.2%</strong></button></div></div>",
+      "css": ".ds-route-map{font-family:\"Source Sans 3 Variable\",sans-serif;display:grid;grid-template-columns:24% 24% 52%;align-items:stretch;min-height:300px;background:var(--white,#fff);color:var(--ink,#183246)}.ds-origin{display:flex;align-items:center;gap:10px}.ds-origin-node{width:18px;height:18px;border:4px solid var(--blue,#1747a6);background:var(--lime,#eff25a);border-radius:50%;flex-shrink:0}.ds-origin-copy{display:flex;flex-direction:column;padding:8px 3px;max-width:130px}.ds-origin-title{font-family:var(--display,\"Archivo Narrow Variable\",sans-serif);font-size:25px;font-weight:650}.ds-origin-context{font-size:13px;line-height:1.2;margin-top:7px;color:var(--muted,#526570)}.ds-routes{height:300px;width:100%;overflow:visible;align-self:center}.ds-routes path{transition:stroke-width .7s var(--ease,cubic-bezier(.16,1,.3,1)),opacity .3s var(--ease,cubic-bezier(.16,1,.3,1))}.ds-destinations{display:flex;flex-direction:column;justify-content:space-around;min-height:300px}.ds-destination{font-family:\"Source Sans 3 Variable\",sans-serif;transition:background-color .16s,color .16s,border-color .16s;display:grid;grid-template-columns:12px minmax(0,1fr) auto;align-items:center;gap:10px;min-height:55px;width:100%;padding:11px 4px 11px 9px;border:0;border-radius:5px;background:transparent;color:var(--ink,#183246);text-align:left;cursor:pointer}.ds-destination:hover,.ds-destination[aria-expanded=\"true\"]{background:#eef2f1}.ds-destination:focus-visible{outline:3px solid var(--blue,#1747a6);outline-offset:4px;}.ds-endpoint{width:10px;height:10px;border:2px solid var(--route-color);background:var(--white,#fff);border-radius:50%;position:relative;left:-13px}.ds-destination-label{font-size:16px;font-weight:550;line-height:1.2}.ds-destination-value{font-family:var(--display,\"Archivo Narrow Variable\",sans-serif);font-size:29px;font-weight:650;letter-spacing:-.025em;font-variant-numeric:tabular-nums;color:var(--route-color);white-space:nowrap}@media(max-width:650px){.ds-route-map{grid-template-columns:28% 14% 58%;min-height:290px}.ds-origin{flex-direction:column;justify-content:center;align-items:flex-start;gap:5px}.ds-origin-title{font-size:19px}.ds-origin-context{font-size:12px}.ds-routes,.ds-destinations{height:290px;min-height:290px}.ds-destination{grid-template-columns:6px minmax(0,1fr) auto;gap:5px;min-height:54px;padding-left:3px;padding-right:0}.ds-destination-label{font-size:14px;line-height:1.23}.ds-destination-value{font-size:25px}.ds-endpoint{left:-6px;width:8px;height:8px}}@media(prefers-reduced-motion:reduce){.ds-destination,.ds-routes path{transition:none}}"
+    },
+    {
+      "name": "Saved option",
+      "kind": "button",
+      "refersTo": "save-button",
+      "description": "Circular SVG action, with the existing unsaved and saved appearances shown together.",
+      "html": "<div class=\"ds-save-examples\"><button class=\"ds-save\" type=\"button\" aria-label=\"Añadir opción\" aria-pressed=\"false\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M12 5v14\"/></svg></button><button class=\"ds-save\" type=\"button\" aria-label=\"Quitar opción\" aria-pressed=\"true\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg></button></div>",
+      "css": ".ds-save-examples{display:flex;gap:12px}.ds-save{font-family:\"Source Sans 3 Variable\",sans-serif;transition:background-color .16s,color .16s,border-color .16s;display:flex;align-items:center;justify-content:center;width:42px;height:42px;padding:0;border:1px solid var(--line,#c8d2d3);border-radius:50%;background:transparent;color:var(--blue,#1747a6);cursor:pointer}.ds-save:hover{color:var(--blue,#1747a6)}.ds-save[aria-pressed=\"true\"]{background:var(--lime,#eff25a);border-color:#b5b946}.ds-save:focus-visible{outline:3px solid var(--blue,#1747a6);outline-offset:4px;}@media(max-width:650px){.ds-save{width:37px;height:37px}}@media(prefers-reduced-motion:reduce){.ds-save{transition:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Scholarly Transit Atlas",
+    "overview": "Posdata treats a doctorate as a departure point and evidence as the map. Cobalt signage establishes orientation; cool paper holds the working material; narrow headings, branching routes and ruled ledgers make a dense research tool readable. The interface is direct and scholarly, with room for exploration and the sources kept close to the claims.\n\nThis is a record of the implemented system in `src/style.css`, `src/responsive.css` and `src/App.tsx`, with the font imports in `src/main.tsx`. The metaphor and color names describe that implementation. They were developed within the user's delegated design brief; they do not imply that the user selected these specific tastes or approved an image composition. `PRODUCT.md` supplies the durable commitments to evidence, visible limitations and a transit-atlas identity.",
+    "keyCharacteristics": [
+      "Cobalt orientation, cool paper surfaces and dark blue text.",
+      "Narrow display lettering paired with open, readable body text.",
+      "Branching statistical routes with explicit labels and figures.",
+      "Continuous evidence ledgers separated by fine rules.",
+      "Compact controls, visible selection and responsive reflow."
+    ],
+    "rules": [
+      {
+        "name": "The Locator Rule",
+        "body": "Use lime to locate the current place, departure point or saved state; preserve its meaning when extending the interface.",
+        "section": "colors"
+      },
+      {
+        "name": "The Labelled Route Rule",
+        "body": "Every statistical color travels with a category label and a number or missing-value mark. Color alone does not explain a destination.",
+        "section": "colors"
+      },
+      {
+        "name": "The Sign and Ledger Rule",
+        "body": "Use Archivo Narrow for orientation, section names and prominent values; use Source Sans 3 for explanations, controls and evidence detail.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Evidence Rule",
+        "body": "Separate evidence with alignment, paper tone and rules. Reserve shadow for the selected presentation segment and transient overlay role already present in the system.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** preserve cobalt orientation, paper surfaces and dark ink as the stable visual foundation.",
+      "**Do** use lime for a meaningful locator or saved state.",
+      "**Do** pair statistical colors with category names, values and visible missing-value treatment.",
+      "**Do** keep population, timeframe and limitations adjacent to the figures they qualify.",
+      "**Do** extend the ruled evidence rows and readable columns before introducing another container type.",
+      "**Do** preserve visible keyboard focus, the current mobile navigation label and reduced-motion behavior.",
+      "**Do** use the bundled display/body pairing and tabular numerals for comparable values."
+    ],
+    "donts": [
+      "**Don't** assign a permanent sector meaning to a route color across different source classifications.",
+      "**Don't** turn lime into an unrelated background treatment or an unlabelled data category.",
+      "**Don't** derive decorative route thickness from anything other than the displayed data.",
+      "**Don't** hide denominators or missing values to make the visual simpler.",
+      "**Don't** spread the segment or toast shadows across ordinary evidence rows.",
+      "**Don't** replace the implemented SVG icon language with text glyphs as a reusable icon convention."
+    ]
+  }
+}

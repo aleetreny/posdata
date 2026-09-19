@@ -1,0 +1,16 @@
+node_modules/
+dist/
+public/release.json
+data/raw/
+exa-results/
+research/
+.impeccable/*
+!.impeccable/design.json
+test-results/
+*.log
+.DS_Store
+.venv/
+*.tsbuildinfo
+task_plan.md
+findings.md
+progress.md
