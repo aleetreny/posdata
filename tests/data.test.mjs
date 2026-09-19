@@ -120,7 +120,7 @@ test("all integrated sources retain provenance and explicit observation semantic
     for (const r of d.records)
       assert.equal(r.values.length, d.categories.length);
   }
-  assert.equal(read("sources.json").length, 68);
+  assert.equal(read("sources.json").length, 75);
   assert.ok(
     read("manifest.json").every((s) => s.sha256 && s.retrieved && s.url),
   );

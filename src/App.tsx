@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -19,7 +19,12 @@ import {
   ChevronUp,
   ExternalLink,
   Plus,
+  Route,
+  ChartNoAxesCombined,
+  Compass,
+  Menu,
 } from "lucide-react";
+import Trajectories from "./Trajectories";
 import type { Dataset, Row, Lang, Placement, Source, DataTable } from "./types";
 import {
   csv,
@@ -38,8 +43,9 @@ import {
   placementTypes,
 } from "./content";
 
-const colors = ["#1747a6", "#187a78", "#9a4883", "#aa661a", "#657387"];
+const colors = ["#86452f", "#187a78", "#9a4883", "#aa661a", "#657387"];
 const views = [
+  "trajectories",
   "atlas",
   "compare",
   "placements",
@@ -60,11 +66,11 @@ type State = {
 };
 function readState(): State {
   const p = new URLSearchParams(location.search);
-  const view = p.get("view") || "atlas";
+  const view = p.get("view") || "trajectories";
   return {
     view: [...views, "methods"].includes(view)
       ? (view as State["view"])
-      : "atlas",
+      : "trajectories",
     dataset: p.get("dataset") || "sed",
     field: p.get("field") || "",
     year: p.get("year") || "",
@@ -73,26 +79,18 @@ function readState(): State {
     compare: p.get("compare") || "",
   };
 }
-const textLabels = {
-  es: [
-    "Explorar",
-    "Comparar",
-    "Destinos",
-    "Opciones",
-    "Estudios",
-    "Fuentes",
-    "Datos",
-  ],
-  en: [
-    "Explore",
-    "Compare",
-    "Placements",
-    "Pathways",
-    "Studies",
-    "Sources",
-    "Data",
-  ],
+const viewLabels = {
+  trajectories: ["Trayectorias", "Careers"],
+  atlas: ["Estadísticas", "Statistics"],
+  compare: ["Comparar", "Compare"],
+  placements: ["Archivo de Economía", "Economics archive"],
+  careers: ["Opciones", "Pathways"],
+  studies: ["Estudios", "Studies"],
+  sources: ["Fuentes", "Sources"],
+  tables: ["Datos", "Data"],
+  methods: ["Cómo leer los datos", "How to read the data"],
 };
+const primaryViews = ["trajectories", "atlas", "careers", "studies"] as const;
 const cache = new Map<string, unknown>();
 function useData<T>(file: string) {
   const [data, setData] = useState<T | null>((cache.get(file) as T) || null);
@@ -239,14 +237,15 @@ export default function App() {
   const [state, setState] = useState(readState);
   const { data, error, reload } = useData<Dataset[]>("datasets.json");
   const [toast, setToast] = useState("");
-  const [navScrollable, setNavScrollable] = useState(false);
+  const menuRef = useRef<HTMLDialogElement>(null);
   const l = state.lang;
   const t = (es: string, en: string) => (l === "es" ? es : en);
   const update = (patch: Partial<State>, push = false) => {
     const n = { ...state, ...patch };
-    const p = new URLSearchParams();
+    const p = new URLSearchParams(location.search);
     Object.entries(n).forEach(([k, v]) => {
       if (v) p.set(k, v);
+      else p.delete(k);
     });
     history[push ? "pushState" : "replaceState"](
       null,
@@ -261,30 +260,6 @@ export default function App() {
     return () => window.removeEventListener("popstate", fn);
   }, []);
   useEffect(() => {
-    const revealActiveTab = () => {
-      const nav = document.querySelector<HTMLElement>(".masthead nav");
-      const active = nav?.querySelector<HTMLElement>('[aria-current="page"]');
-      if (!nav) return;
-      setNavScrollable(nav.scrollWidth > nav.clientWidth + 1);
-      if (active) {
-        const box = nav.getBoundingClientRect();
-        const tab = active.getBoundingClientRect();
-        nav.scrollTo({
-          left:
-            nav.scrollLeft +
-            tab.left -
-            box.left -
-            (nav.clientWidth - tab.width) / 2,
-          behavior: "instant",
-        });
-      }
-    };
-    revealActiveTab();
-    document.fonts.ready.then(revealActiveTab);
-    window.addEventListener("resize", revealActiveTab);
-    return () => window.removeEventListener("resize", revealActiveTab);
-  }, [state.view, l]);
-  useEffect(() => {
     document.documentElement.lang = l;
     document.title = `Posdata · ${t("Después del doctorado", "After the doctorate")}`;
   }, [l]);
@@ -295,6 +270,7 @@ export default function App() {
     }
   }, [toast]);
   const nav = (view: State["view"]) => {
+    menuRef.current?.close();
     update({ view }, true);
     window.scrollTo({ top: 0, behavior: "instant" });
     requestAnimationFrame(() => document.getElementById("main")?.focus());
@@ -416,10 +392,10 @@ export default function App() {
         <div className="header-inner">
           <a
             className="brand"
-            href="?view=atlas"
+            href="?view=trajectories"
             onClick={(e) => {
               e.preventDefault();
-              nav("atlas");
+              nav("trajectories");
             }}
             aria-label="Posdata — inicio"
           >
@@ -431,8 +407,11 @@ export default function App() {
               </span>
             </span>
           </a>
-          <nav aria-label={t("Navegación principal", "Main navigation")}>
-            {views.map((v, i) => (
+          <nav
+            className="desktop-navigation"
+            aria-label={t("Navegación principal", "Main navigation")}
+          >
+            {primaryViews.map((v) => (
               <a
                 key={v}
                 href={`?view=${v}&lang=${l}`}
@@ -442,9 +421,18 @@ export default function App() {
                   nav(v);
                 }}
               >
-                {textLabels[l][i]}
+                {viewLabels[v][l === "es" ? 0 : 1]}
               </a>
             ))}
+            <button
+              className="more-navigation"
+              onClick={() => menuRef.current?.showModal()}
+              aria-label={t("Más secciones", "More sections")}
+              aria-haspopup="dialog"
+            >
+              <Menu size={18} />
+              {t("Más", "More")}
+            </button>
           </nav>
           <button
             className="language"
@@ -454,20 +442,79 @@ export default function App() {
             {l === "es" ? "EN" : "ES"}
             <ArrowUpRight size={14} />
           </button>
-          {navScrollable && (
-            <span className="nav-hint" aria-hidden="true">
-              <ArrowLeft size={12} />
-              {t(
-                "Desliza el menú para ver más secciones",
-                "Swipe the menu for more sections",
-              )}
-              <ArrowRight size={12} />
-            </span>
-          )}
         </div>
       </header>
+      <dialog
+        ref={menuRef}
+        className="navigation-dialog"
+        aria-labelledby="menu-title"
+      >
+        <div className="navigation-dialog-heading">
+          <h2 id="menu-title">{t("Explora Posdata", "Explore Posdata")}</h2>
+          <button
+            autoFocus
+            onClick={() => menuRef.current?.close()}
+            aria-label={t("Cerrar menú", "Close menu")}
+          >
+            <X size={23} />
+          </button>
+        </div>
+        <nav aria-label={t("Todas las secciones", "All sections")}>
+          {[...views, "methods" as const].map((v) => (
+            <a
+              key={v}
+              href={`?view=${v}&lang=${l}`}
+              aria-current={state.view === v ? "page" : undefined}
+              onClick={(e) => {
+                e.preventDefault();
+                nav(v);
+              }}
+            >
+              <span>{viewLabels[v][l === "es" ? 0 : 1]}</span>
+              <ArrowUpRight size={19} />
+            </a>
+          ))}
+        </nav>
+      </dialog>
+      <nav
+        className="mobile-navigation"
+        aria-label={t("Navegación móvil", "Mobile navigation")}
+      >
+        {(["trajectories", "atlas", "careers"] as const).map((v, i) => {
+          const Icon = [Route, ChartNoAxesCombined, Compass][i];
+          return (
+            <a
+              key={v}
+              href={`?view=${v}&lang=${l}`}
+              aria-current={state.view === v ? "page" : undefined}
+              onClick={(e) => {
+                e.preventDefault();
+                nav(v);
+              }}
+            >
+              <Icon size={21} />
+              <span>{viewLabels[v][l === "es" ? 0 : 1]}</span>
+            </a>
+          );
+        })}
+        <button
+          onClick={() => menuRef.current?.showModal()}
+          aria-label={t("Más secciones", "More sections")}
+          aria-haspopup="dialog"
+          className={
+            !["trajectories", "atlas", "careers"].includes(state.view)
+              ? "is-current"
+              : ""
+          }
+        >
+          <Menu size={21} />
+          <span>{t("Más", "More")}</span>
+        </button>
+      </nav>
       <main id="main" tabIndex={-1} className="shell">
-        {!data ? (
+        {state.view === "trajectories" ? (
+          <Trajectories lang={l} navigate={nav} />
+        ) : !data ? (
           <Loading error={error} reload={reload} lang={l} />
         ) : (
           <>
@@ -1833,8 +1880,8 @@ function Sources({
           "Every data point has an origin.",
         )}
         description={t(
-          "68 fuentes y recursos investigados. Un directorio global, con accesibilidad, cobertura y límites.",
-          "68 researched sources and resources. A global directory with access, coverage and limitations.",
+          "75 fuentes y recursos investigados. Un directorio global, con accesibilidad, cobertura y límites.",
+          "75 researched sources and resources. A global directory with access, coverage and limitations.",
         )}
       >
         <a
@@ -1851,11 +1898,14 @@ function Sources({
           <strong>
             {t("Integrado en el visor", "Integrated in the explorer")}
           </strong>
-          <span>NCSES SED · NCSES SDR · IP Doc · LEO</span>
+          <span>ORCID · ROR · NCSES · IP Doc · LEO</span>
         </div>
         <div>
           <strong>{t("Destinos documentados", "Documented placements")}</strong>
-          <span>Economía · 29 {t("departamentos", "departments")}</span>
+          <span>
+            ORCID · Oxford · Glasgow · Cattolica ·{" "}
+            {t("archivo de Economía", "Economics archive")}
+          </span>
         </div>
         <button className="text-button" onClick={() => navigate("methods")}>
           {t("Método y taxonomía", "Methods & taxonomy")}
@@ -1864,8 +1914,8 @@ function Sources({
       </div>
       <p className="small-note">
         {t(
-          "El directorio es más amplio que los datos integrados. Incluye fuentes históricas, accesos restringidos y recursos para enlazar identidades. No son 68 bases ya extraídas ni una cobertura censal mundial.",
-          "The directory extends beyond the integrated data. It includes historical sources, restricted access and identity-linking resources. These are not 68 fully extracted databases or a worldwide census.",
+          "El directorio es más amplio que los datos integrados. Incluye fuentes históricas, accesos restringidos y recursos para enlazar identidades. No son 75 bases ya extraídas ni una cobertura censal mundial.",
+          "The directory extends beyond the integrated data. It includes historical sources, restricted access and identity-linking resources. These are not 75 fully extracted databases or a worldwide census.",
         )}
       </p>
       {!data ? (
@@ -2281,7 +2331,48 @@ function Methods({ lang: l }: { lang: Lang }) {
       <div className="methods">
         <section>
           <h2>
-            {t("Cuatro preguntas diferentes", "Four different questions")}
+            {t(
+              "De un doctorado a un empleo: reglas de inclusión",
+              "From doctorate to employment: inclusion rules",
+            )}
+          </h2>
+          <p>
+            {t(
+              "El explorador principal usa el archivo público completo de ORCID del 1 de octubre de 2025. Solo incluye un perfil cuando declara un doctorado de investigación terminado con fecha y un empleo cuyo inicio es igual o posterior. Los doctorados en curso, honoríficos, títulos profesionales no identificados como PhD, empleos sin fecha y puestos claramente anteriores no califican. Si faltan meses o días dentro del mismo período, conservamos la incertidumbre del orden.",
+              "The main explorer uses the complete ORCID public file dated 1 October 2025. A profile qualifies only when it states a completed, dated research doctorate and a job starting at or after it. Ongoing or honorary degrees, professional degrees not identified as PhDs, undated jobs and clearly earlier jobs do not qualify. Missing months or days within the same period leave the order uncertain.",
+            )}
+          </p>
+          <p>
+            {t(
+              "Una fila representa un identificador ORCID, no una persona independientemente verificada. Se toma el primer doctorado terminado y se permite elegir el primer empleo posterior observado o el último inicio registrado. El historial conserva puestos simultáneos. Nada de ello certifica empleo actual, estabilidad contractual o una secuencia exhaustiva.",
+              "One row represents an ORCID identifier, not an independently verified person. We use the earliest completed doctorate and allow selection of the first observed later job or the latest recorded start. The history retains concurrent roles. This does not certify current employment, contract stability or an exhaustive sequence.",
+            )}
+          </p>
+          <p>
+            {t(
+              "Las áreas se asignan mediante reglas multilingües sobre el título y departamento del doctorado; son categorías de navegación, no códigos FORD o ISCED validados. ROR clasifica el sector de la organización por ID, enlace GRID o un nombre y país exactos y únicos. No sustituimos el país declarado del empleo por la sede de la empresa. La función procede del título del puesto. Se conservan áreas múltiples y categorías sin identificar.",
+              "Fields use multilingual rules on the doctoral degree and department; these are browsing categories, not validated FORD or ISCED codes. ROR supplies organisation sector through an ID, GRID crosswalk or a unique exact name and country. The reported employment country is never replaced by company headquarters. Function comes from the job title. Multiple fields and unknown categories are retained.",
+            )}
+          </p>
+          <p>
+            {t(
+              "La selección voluntaria de ORCID favorece a quienes siguen vinculados a investigación. Los porcentajes solo describen los perfiles filtrados. Las 295 fichas universitarias se muestran por separado: pueden solaparse con ORCID y sus nombramientos pueden ser históricos o futuros. Ausencia de un registro nunca significa desempleo.",
+              "Voluntary ORCID profiles favour people who remain connected to research. Percentages describe only the filtered profiles. The 295 university entries are displayed separately: they may overlap ORCID and appointments may be historical or future. An absent record never means unemployment.",
+            )}
+          </p>
+          <a
+            href={`${import.meta.env.BASE_URL}data/trajectories/manifest.json`}
+            download
+          >
+            {t(
+              "Descargar manifiesto de trayectorias y huellas de los archivos",
+              "Download the career manifest and file checksums",
+            )}
+          </a>
+        </section>
+        <section>
+          <h2>
+            {t("Encuestas que aportan contexto", "Surveys providing context")}
           </h2>
           <dl className="method-ledger">
             <div>
@@ -2331,8 +2422,8 @@ function Methods({ lang: l }: { lang: Lang }) {
           </h2>
           <p>
             {t(
-              "Preservamos las categorías de cada fuente. No forzamos equivalencias entre clases que miden cosas diferentes. Para futuros registros detallados, el esquema separa:",
-              "We retain each source’s categories. We do not force equivalence between classes measuring different things. For detailed future records, the schema separates:",
+              "Preservamos las categorías de cada fuente. No forzamos equivalencias entre clases que miden cosas diferentes. El explorador de trayectorias separa:",
+              "We retain each source’s categories. We do not force equivalence between classes measuring different things. The career explorer separates:",
             )}
           </p>
           <div
@@ -2476,14 +2567,14 @@ function Methods({ lang: l }: { lang: Lang }) {
           </h2>
           <p>
             {t(
-              "Todas las grandes familias de disciplinas están representadas en SED. La profundidad varía por país y área. El directorio amplía el alcance a Europa, América, Asia, África y Oceanía, pero las cuatro colecciones estadísticas integradas proceden de Estados Unidos, Francia e Inglaterra. Los empleadores individuales integrados se limitan a Economía.",
-              "All broad disciplinary families are represented in SED. Depth varies by country and field. The directory extends to Europe, the Americas, Asia, Africa and Oceania, but the four integrated statistical collections come from the US, France and England. Integrated individual employer records are limited to Economics.",
+              "Todas las grandes familias de disciplinas están representadas en SED. La profundidad varía por país y área. El directorio amplía el alcance a Europa, América, Asia, África y Oceanía, pero las cuatro colecciones estadísticas integradas proceden de Estados Unidos, Francia e Inglaterra. Las trayectorias nominales parten del archivo ORCID 2025 en todas las disciplinas identificables, con prioridad a doctorados europeos y empleos mundiales. Se añaden listas universitarias y un archivo histórico de Economía, sin sumar sus recuentos.",
+              "All broad disciplinary families are represented in SED. Depth varies by country and field. The directory extends to Europe, the Americas, Asia, Africa and Oceania, but the four integrated statistical collections come from the US, France and England. Individual career records use the ORCID 2025 archive across identifiable disciplines, prioritising European doctorates and worldwide employment. University lists and the historical Economics archive are kept as separate evidence, without adding their counts.",
             )}
           </p>
           <p>
             {t(
-              "La investigación inicial examinó 241 direcciones web únicas en 45 búsquedas. Seleccionamos 68 fuentes y recursos para el catálogo; 14 lecturas primarias están resumidas en la biblioteca. No afirmamos ser un censo global ni disponer de todos los destinos.",
-              "Initial research examined 241 unique web addresses across 45 searches. We selected 68 sources and resources for the directory; 14 primary readings are summarised in the library. We do not claim a global census or all career destinations.",
+              "La investigación inicial examinó 241 direcciones web únicas en 45 búsquedas. El catálogo se ha ampliado a 75 fuentes y recursos; 14 lecturas primarias están resumidas en la biblioteca. No afirmamos ser un censo global ni disponer de todos los destinos.",
+              "Initial research examined 241 unique web addresses across 45 searches. The directory was expanded to 75 sources and resources; 14 primary readings are summarised in the library. We do not claim a global census or all career destinations.",
             )}
           </p>
         </section>
@@ -2493,8 +2584,8 @@ function Methods({ lang: l }: { lang: Lang }) {
           </h2>
           <p>
             {t(
-              "Cada descarga tiene URL, fecha y huella SHA-256. El repositorio contiene el proceso de extracción. Los agregados NCSES son estadística pública estadounidense; IP Doc usa Licence Ouverte 2.0; LEO usa Open Government Licence v3.0. Los registros de Economía mantienen su licencia MIT y atribución original.",
-              "Every downloaded snapshot has a URL, date and SHA-256 hash. The repository contains the extraction process. NCSES aggregates are US public statistics; IP Doc uses Licence Ouverte 2.0; LEO uses Open Government Licence v3.0. Economics records retain their MIT licence and original attribution.",
+              "ORCID y ROR se reutilizan bajo CC0 1.0. Los manifiestos incluyen las huellas de los archivos originales y derivados. Cada descarga tiene URL, fecha y huella SHA-256. El repositorio contiene el proceso de extracción. Los agregados NCSES son estadística pública estadounidense; IP Doc usa Licence Ouverte 2.0; LEO usa Open Government Licence v3.0. Los registros de Economía mantienen su licencia MIT y atribución original.",
+              "ORCID and ROR are reused under CC0 1.0. Manifests include original and derived file checksums. Every downloaded snapshot has a URL, date and SHA-256 hash. The repository contains the extraction process. NCSES aggregates are US public statistics; IP Doc uses Licence Ouverte 2.0; LEO uses Open Government Licence v3.0. Economics records retain their MIT licence and original attribution.",
             )}
           </p>
           <p>

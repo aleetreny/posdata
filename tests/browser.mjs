@@ -88,7 +88,7 @@ try {
   const failureContext = await browser.newContext();
   const failurePage = await failureContext.newPage();
   await failurePage.route("**/data/datasets.json", (r) => r.abort());
-  await failurePage.goto(base);
+  await failurePage.goto(`${base}?view=atlas`);
   await failurePage.getByRole("alert").waitFor();
   await failurePage.unroute("**/data/datasets.json");
   await failurePage.getByRole("button", { name: "Volver a intentar" }).click();
@@ -286,7 +286,7 @@ try {
   await page.getByRole("button", { name: "Borrar búsqueda" }).click();
   await page.locator("#priority").selectOption("A");
   assert.ok((await page.locator(".sources-list details").count()) > 0);
-  record("all 68 source disclosures, search and priority");
+  record("all 75 source disclosures, search and priority");
   await go("tables");
   let tablesTested = 0;
   for (let n = 0; n < 10; n++) {
@@ -369,7 +369,7 @@ try {
       `WebKit ${v} overflow`,
     );
   }
-  await wp.goto(base);
+  await wp.goto(`${base}?view=atlas`);
   await wp
     .getByRole("combobox", { name: "Fuente de datos", exact: true })
     .selectOption("france");

@@ -10,6 +10,7 @@ test-results/
 *.log
 .DS_Store
 .venv/
+__pycache__/
 *.tsbuildinfo
 task_plan.md
 findings.md

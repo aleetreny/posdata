@@ -4,6 +4,7 @@ import "@fontsource-variable/archivo-narrow";
 import "@fontsource-variable/source-sans-3";
 import "./style.css";
 import "./responsive.css";
+import "./trajectories.css";
 import App from "./App";
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

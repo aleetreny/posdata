@@ -506,7 +506,7 @@
     display: none;
   }
   .discipline-list button.selected {
-    border-color: var(--blue);
+    border-color: var(--accent);
   }
   .discipline-list button.selected svg {
     width: 13px;
