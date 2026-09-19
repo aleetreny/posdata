@@ -38,6 +38,7 @@ import {
 import {
   studies,
   careers,
+  careerExample,
   sectors,
   institutions,
   placementTypes,
@@ -84,12 +85,63 @@ const viewLabels = {
   atlas: ["Estadísticas", "Statistics"],
   compare: ["Comparar", "Compare"],
   placements: ["Archivo de Economía", "Economics archive"],
-  careers: ["Opciones", "Pathways"],
+  careers: ["Salidas", "Pathways"],
   studies: ["Estudios", "Studies"],
   sources: ["Fuentes", "Sources"],
-  tables: ["Datos", "Data"],
+  tables: ["Tablas", "Tables"],
   methods: ["Cómo leer los datos", "How to read the data"],
 };
+const viewDescriptions: Record<State["view"], [string, string]> = {
+  trajectories: [
+    "Personas, empleadores y puestos después del doctorado",
+    "People, employers and jobs after a doctorate",
+  ],
+  atlas: [
+    "Porcentajes de empleo y salarios por disciplina",
+    "Employment percentages and salaries by field",
+  ],
+  compare: [
+    "Varias disciplinas con la misma fuente y población",
+    "Several fields within one source and population",
+  ],
+  placements: [
+    "Primeros destinos publicados entre 1998 y 2023",
+    "First placements reported between 1998 and 2023",
+  ],
+  careers: [
+    "Funciones profesionales y ejemplos para explorarlas",
+    "Career options and examples to explore",
+  ],
+  studies: [
+    "Qué encuentra la investigación sobre estas carreras",
+    "What research finds about these careers",
+  ],
+  sources: [
+    "Procedencia, cobertura y acceso a cada fuente",
+    "Provenance, coverage and access for each source",
+  ],
+  tables: [
+    "Tablas originales y resultados por universidad francesa",
+    "Original tables and French university outcomes",
+  ],
+  methods: [
+    "Categorías, reglas y límites de interpretación",
+    "Categories, rules and limits of interpretation",
+  ],
+};
+const integratedSources = new Set([
+  "01",
+  "02",
+  "05",
+  "08",
+  "09",
+  "47",
+  "69",
+  "70",
+  "71",
+  "72",
+  "76",
+]);
 const primaryViews = ["trajectories", "atlas", "careers", "studies"] as const;
 const cache = new Map<string, unknown>();
 function useData<T>(file: string) {
@@ -261,8 +313,8 @@ export default function App() {
   }, []);
   useEffect(() => {
     document.documentElement.lang = l;
-    document.title = `Posdata · ${t("Después del doctorado", "After the doctorate")}`;
-  }, [l]);
+    document.title = `Posdata · ${viewLabels[state.view][l === "es" ? 0 : 1]}`;
+  }, [l, state.view]);
   useEffect(() => {
     if (toast) {
       const id = setTimeout(() => setToast(""), 4500);
@@ -361,7 +413,7 @@ export default function App() {
           >
             {horizons.map((h) => (
               <option key={h} value={h}>
-                {h} {t("años", "years")}
+                {h} {Number(h) === 1 ? t("año", "year") : t("años", "years")}
               </option>
             ))}
           </select>
@@ -465,12 +517,19 @@ export default function App() {
               key={v}
               href={`?view=${v}&lang=${l}`}
               aria-current={state.view === v ? "page" : undefined}
+              aria-label={viewLabels[v][l === "es" ? 0 : 1]}
+              aria-describedby={`menu-description-${v}`}
               onClick={(e) => {
                 e.preventDefault();
                 nav(v);
               }}
             >
-              <span>{viewLabels[v][l === "es" ? 0 : 1]}</span>
+              <span>
+                {viewLabels[v][l === "es" ? 0 : 1]}
+                <small id={`menu-description-${v}`}>
+                  {viewDescriptions[v][l === "es" ? 0 : 1]}
+                </small>
+              </span>
               <ArrowUpRight size={19} />
             </a>
           ))}
@@ -1267,7 +1326,7 @@ function Placements({ lang: l }: { lang: Lang }) {
         ?.filter(
           (r) =>
             (!inst || r.institution === inst) &&
-            (!type || r.type === type) &&
+            (!type || (r.reviewedType || r.type) === type) &&
             (!year || String(r.year) === year) &&
             norm(
               `${r.name} ${r.employer} ${r.field} ${institutions[r.institution]}`,
@@ -1310,7 +1369,9 @@ function Placements({ lang: l }: { lang: Lang }) {
                   institution: institutions[r.institution],
                   source: "https://github.com/pablogguz/econphd_placements",
                   observed: "Historical placement; not current employment",
-                  classification: "Original source labels, unverified",
+                  classification: r.reviewedType
+                    ? "Reviewed employer category; original type retained"
+                    : "Original source category; not independently verified",
                 })),
               ),
             )
@@ -1434,7 +1495,7 @@ function Placements({ lang: l }: { lang: Lang }) {
                         {t("Departamento de origen", "Origin department")}
                       </th>
                       <th>{t("Persona / campo", "Person / field")}</th>
-                      <th>{t("Etiqueta original²", "Original label²")}</th>
+                      <th>{t("Tipo de destino²", "Placement type²")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1456,8 +1517,20 @@ function Placements({ lang: l }: { lang: Lang }) {
                         </td>
                         <td>
                           <span className="type-label">
-                            {placementTypes[r.type]?.[l] || r.type}
+                            {placementTypes[r.reviewedType || r.type]?.[l] ||
+                              r.type}
                           </span>
+                          {r.reviewedType && (
+                            <small>
+                              {t("Original", "Original")}: {r.type}.{" "}
+                              <SourceLink url={r.classificationSource!}>
+                                {t(
+                                  "Corrección documentada",
+                                  "Documented correction",
+                                )}
+                              </SourceLink>
+                            </small>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -1485,8 +1558,8 @@ function Placements({ lang: l }: { lang: Lang }) {
             </summary>
             <p>
               {t(
-                "¹ La fuente usa “tenure_track” en 3.438 registros. Aquí se muestra como puesto académico: no hemos verificado la estabilidad del contrato. ² Conservamos las categorías de origen, que contienen errores de clasificación (por ejemplo, algunos bancos centrales figuran como privado).",
-                "¹ The source labels 3,438 records “tenure_track”. We show academic position: contract stability has not been verified. ² Source categories contain classification errors (for example, some central banks are labelled private).",
+                "¹ La fuente usa “tenure_track” en 3.438 registros. Se muestra como puesto académico, sin acreditar estabilidad contractual. ² Se han corregido categorías de bancos centrales y del BIS con evidencia institucional enlazada. La etiqueta original se conserva en cada corrección y en el CSV; las demás categorías proceden del archivo y no se han validado individualmente.",
+                "¹ The source labels 3,438 records “tenure_track”. We show academic position without establishing contract stability. ² Central-bank and BIS categories have been corrected with linked institutional evidence. Original labels remain visible for corrections and in the CSV; other categories come from the archive and have not been individually validated.",
               )}
             </p>
             <p>
@@ -1593,7 +1666,10 @@ function Careers({
   return (
     <>
       <PageTitle
-        title={t("Tu experiencia puede viajar.", "Your experience can travel.")}
+        title={t(
+          "¿Qué puedes hacer después del doctorado?",
+          "What can you do after a doctorate?",
+        )}
         description={t(
           "18 funciones para explorar. Orientación editorial apoyada en estudios; no son vacantes ni probabilidades de contratación.",
           "18 functions to explore. Research-informed editorial guidance, not vacancies or hiring probabilities.",
@@ -1608,8 +1684,8 @@ function Careers({
         </h2>
         <p>
           {t(
-            "Investigar, enseñar, construir, evaluar, comunicar. Un mismo trabajo puede existir en varios sectores. Estas descripciones son puntos de partida: consulta requisitos concretos de cada puesto y país.",
-            "Research, teach, build, evaluate, communicate. The same work can exist across sectors. These descriptions are starting points: check the requirements of each role and country.",
+            "Elige una función, mira ejemplos de trayectorias y guarda las opciones que te interesen. Un mismo trabajo puede existir en varios sectores. Comprueba los requisitos de cada puesto y país.",
+            "Choose a function, explore career examples and save the paths that interest you. The same work can exist across sectors. Check each role’s requirements and country.",
           )}
         </p>
       </div>
@@ -1664,6 +1740,12 @@ function Careers({
           </button>
         ))}
       </div>
+      <p className="career-list-status" role="status">
+        {result.length}{" "}
+        {result.length === 1
+          ? t("función para explorar", "function to explore")
+          : t("funciones para explorar", "functions to explore")}
+      </p>
       <div className="career-list">
         {result.map((c) => {
           const evidence = studies.find((s) => s.id === c.study)!;
@@ -1682,6 +1764,13 @@ function Careers({
                   </span>
                   {c.skills[l]}
                 </div>
+                <a
+                  className="career-examples"
+                  href={careerExample(c.id, l).url}
+                >
+                  {careerExample(c.id, l).label}
+                  <ArrowRight size={16} />
+                </a>
                 <SourceLink url={evidence.url}>
                   {t(
                     "Contexto para explorar esta vía",
@@ -1865,11 +1954,14 @@ function Sources({
   const t = (es: string, en: string) => (l === "es" ? es : en);
   const { data, error, reload } = useData<Source[]>("sources.json");
   const [q, sq] = useState("");
-  const [priority, sp] = useState("");
+  const [usage, setUsage] = useState("");
   const result =
     data?.filter(
       (s) =>
-        (!priority || s.prioridad === priority) &&
+        (!usage ||
+          (usage === "integrated"
+            ? integratedSources.has(s.id)
+            : !integratedSources.has(s.id))) &&
         norm(Object.values(s).join(" ")).includes(norm(q)),
     ) || [];
   return (
@@ -1880,8 +1972,8 @@ function Sources({
           "Every data point has an origin.",
         )}
         description={t(
-          "75 fuentes y recursos investigados. Un directorio global, con accesibilidad, cobertura y límites.",
-          "75 researched sources and resources. A global directory with access, coverage and limitations.",
+          "Fuentes y recursos investigados. Un directorio global, con accesibilidad, cobertura y límites.",
+          "Researched sources and resources. A global directory with access, coverage and limitations.",
         )}
       >
         <a
@@ -1914,8 +2006,8 @@ function Sources({
       </div>
       <p className="small-note">
         {t(
-          "El directorio es más amplio que los datos integrados. Incluye fuentes históricas, accesos restringidos y recursos para enlazar identidades. No son 75 bases ya extraídas ni una cobertura censal mundial.",
-          "The directory extends beyond the integrated data. It includes historical sources, restricted access and identity-linking resources. These are not 75 fully extracted databases or a worldwide census.",
+          "El directorio es más amplio que los datos integrados. Incluye fuentes históricas, accesos restringidos y recursos para enlazar identidades. Solo las marcadas como integradas aportan datos a esta edición; el conjunto no constituye un censo mundial.",
+          "The directory extends beyond the integrated data. It includes historical sources, restricted access and identity-linking resources. Only those marked as integrated supply data in this edition; the collection is not a worldwide census.",
         )}
       </p>
       {!data ? (
@@ -1932,25 +2024,21 @@ function Sources({
                 "Country, discipline, API, ORCID…",
               )}
             />
-            <label className="sr-only" htmlFor="priority">
-              {t("Prioridad", "Priority")}
+            <label className="sr-only" htmlFor="source-usage">
+              {t("Uso en Posdata", "Use in Posdata")}
             </label>
             <select
-              id="priority"
-              value={priority}
-              onChange={(e) => sp(e.target.value)}
+              id="source-usage"
+              value={usage}
+              onChange={(e) => setUsage(e.target.value)}
             >
-              <option value="">
-                {t("Todas las prioridades", "All priorities")}
+              <option value="">{t("Todas las fuentes", "All sources")}</option>
+              <option value="integrated">
+                {t("Datos integrados en la web", "Data integrated in the site")}
               </option>
-              {[...new Set(data.map((s) => s.prioridad))].sort().map((x) => (
-                <option value={x} key={x}>
-                  {x}{" "}
-                  {x === "A"
-                    ? t("· base principal", "· primary foundation")
-                    : ""}
-                </option>
-              ))}
+              <option value="reference">
+                {t("Otras fuentes investigadas", "Other researched sources")}
+              </option>
             </select>
             <span role="status">
               {result.length} {t("fuentes", "sources")}
@@ -1965,7 +2053,11 @@ function Sources({
                     <h2>{s.fuente}</h2>
                     <p>{s.ambito}</p>
                   </div>
-                  <span className="priority">{s.prioridad}</span>
+                  <span className="priority">
+                    {integratedSources.has(s.id)
+                      ? t("Integrada", "Integrated")
+                      : t("Referencia", "Reference")}
+                  </span>
                   <ChevronDown size={18} />
                 </summary>
                 <div className="source-detail">
@@ -1996,7 +2088,7 @@ function Sources({
               lang={l}
               reset={() => {
                 sq("");
-                sp("");
+                setUsage("");
               }}
             />
           )}
@@ -2350,8 +2442,8 @@ function Methods({ lang: l }: { lang: Lang }) {
           </p>
           <p>
             {t(
-              "Las áreas se asignan mediante reglas multilingües sobre el título y departamento del doctorado; son categorías de navegación, no códigos FORD o ISCED validados. ROR clasifica el sector de la organización por ID, enlace GRID o un nombre y país exactos y únicos. No sustituimos el país declarado del empleo por la sede de la empresa. La función procede del título del puesto. Se conservan áreas múltiples y categorías sin identificar.",
-              "Fields use multilingual rules on the doctoral degree and department; these are browsing categories, not validated FORD or ISCED codes. ROR supplies organisation sector through an ID, GRID crosswalk or a unique exact name and country. The reported employment country is never replaced by company headquarters. Function comes from the job title. Multiple fields and unknown categories are retained.",
+              "Las áreas se asignan mediante reglas multilingües sobre el título y departamento del doctorado; son categorías de navegación, no códigos FORD o ISCED validados. El sector combina ROR con coincidencias únicas de nombre y país, variantes de puntuación y reglas explícitas para facultades y universidades. Las universidades públicas y privadas se agrupan en educación. Sin identificar no significa privado; cada historial explica el criterio y cualquier conflicto de identificadores. No sustituimos el país declarado del empleo por la sede de la empresa. La función procede del título del puesto. Se conservan áreas múltiples y categorías sin identificar.",
+              "Fields use multilingual rules on the doctoral degree and department; these are browsing categories, not validated FORD or ISCED codes. Sector combines ROR with unique name and country matches, punctuation variants and explicit rules for university units and names. Public and private universities belong to education. Unidentified does not mean private; each history explains its classification and any identifier conflict. The reported employment country is never replaced by company headquarters. Function comes from the job title. Multiple fields and unknown categories are retained.",
             )}
           </p>
           <p>
@@ -2573,8 +2665,8 @@ function Methods({ lang: l }: { lang: Lang }) {
           </p>
           <p>
             {t(
-              "La investigación inicial examinó 241 direcciones web únicas en 45 búsquedas. El catálogo se ha ampliado a 75 fuentes y recursos; 14 lecturas primarias están resumidas en la biblioteca. No afirmamos ser un censo global ni disponer de todos los destinos.",
-              "Initial research examined 241 unique web addresses across 45 searches. The directory was expanded to 75 sources and resources; 14 primary readings are summarised in the library. We do not claim a global census or all career destinations.",
+              "El catálogo reúne 76 fuentes y recursos y distingue los datos integrados de las referencias para ampliar la investigación. La biblioteca resume 14 lecturas primarias. No afirmamos ser un censo global ni disponer de todos los destinos.",
+              "The directory contains 76 sources and resources and distinguishes integrated data from references for further research. The library summarises 14 primary readings. We do not claim a global census or all career destinations.",
             )}
           </p>
         </section>

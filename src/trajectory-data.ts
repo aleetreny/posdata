@@ -37,6 +37,8 @@ export type TrajectoryFilters = {
   sector: string;
   role: string;
   q: string;
+  searchIn: string;
+  employer: string;
   mode: "first" | "last";
   from: string;
   to: string;
@@ -50,6 +52,8 @@ export const defaultFilters: TrajectoryFilters = {
   sector: "",
   role: "",
   q: "",
+  searchIn: "all",
+  employer: "",
   mode: "last",
   from: "",
   to: "",
@@ -104,6 +108,9 @@ export type Affiliation = {
     method: string;
     ror: string;
     rorTypes?: string[];
+    rorScope?: "parent";
+    conflictingRor?: string;
+    sectorRule?: string;
   };
 };
 export type CareerDetail = {

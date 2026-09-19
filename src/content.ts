@@ -298,6 +298,99 @@ export const sectors = [
   b("Sociedad y políticas", "Society & policy"),
   b("Educación y cultura", "Education & culture"),
 ];
+
+// Links describe the actual filter being applied, not a validated occupation.
+const careerExamples: Record<string, [Record<string, string>, Bi]> = {
+  research: [
+    { trSector: "1", trRole: "4" },
+    b("Ver investigación en universidades", "Explore university research"),
+  ],
+  industry: [
+    { trSector: "2", trRole: "4" },
+    b("Ver investigación en empresas", "Explore research in companies"),
+  ],
+  publicresearch: [
+    { trSector: "3", trRole: "4" },
+    b(
+      "Ver investigación en organismos públicos",
+      "Explore government research",
+    ),
+  ],
+  data: [
+    { trRole: "3" },
+    b("Ver puestos de datos y software", "Explore data and software roles"),
+  ],
+  software: [
+    { trRole: "3" },
+    b("Ver puestos de datos y software", "Explore data and software roles"),
+  ],
+  consulting: [
+    { trRole: "6" },
+    b("Ver consultoría y análisis", "Explore consulting and analysis"),
+  ],
+  finance: [
+    { view: "placements" },
+    b("Explorar destinos de Economía", "Explore Economics placements"),
+  ],
+  policy: [
+    { trQ: "policy", trSearchIn: "role" },
+    b("Buscar puestos con «policy»", "Search roles containing ‘policy’"),
+  ],
+  nonprofit: [
+    { trSector: "5" },
+    b("Ver entidades sin ánimo de lucro", "Explore non-profit employers"),
+  ],
+  ux: [
+    { trQ: "user research", trSearchIn: "role" },
+    b("Buscar puestos de «user research»", "Search ‘user research’ roles"),
+  ],
+  teaching: [
+    { trRole: "2" },
+    b("Ver docencia universitaria", "Explore university teaching"),
+  ],
+  culture: [
+    { trQ: "museum", trSearchIn: "employer" },
+    b(
+      "Buscar empleadores con «museum»",
+      "Search employers containing ‘museum’",
+    ),
+  ],
+  publishing: [
+    { trQ: "editor", trSearchIn: "role" },
+    b("Buscar puestos con «editor»", "Search roles containing ‘editor’"),
+  ],
+  management: [
+    { trRole: "7" },
+    b("Ver dirección y gestión", "Explore leadership and management"),
+  ],
+  transfer: [
+    { trQ: "technology transfer", trSearchIn: "role" },
+    b("Buscar «technology transfer»", "Search ‘technology transfer’"),
+  ],
+  health: [
+    { trSector: "4" },
+    b("Ver hospitales y salud", "Explore hospitals and health"),
+  ],
+  entrepreneur: [
+    { trQ: "founder", trSearchIn: "role" },
+    b("Buscar puestos con «founder»", "Search roles containing ‘founder’"),
+  ],
+  international: [
+    { trQ: "United Nations", trSearchIn: "employer" },
+    b("Ver ejemplos en Naciones Unidas", "Explore United Nations examples"),
+  ],
+};
+export function careerExample(id: string, lang: "es" | "en") {
+  const [filters, label] = careerExamples[id];
+  const params = new URLSearchParams({
+    view: "trajectories",
+    trOrigin: "all",
+    ...filters,
+    lang,
+  });
+  if (filters.view === "placements") params.delete("trOrigin");
+  return { url: `?${params}`, label: label[lang] };
+}
 export const careers = [
   [
     "research",

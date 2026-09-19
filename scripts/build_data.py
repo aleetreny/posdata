@@ -59,6 +59,69 @@ translations={
  'Agriculture, food and related studies':'Agricultura y alimentación','Allied health':'Otras ciencias de la salud','Veterinary sciences':'Veterinaria',
  'Sport and exercise sciences':'Ciencias del deporte','Materials and technology':'Materiales y tecnología',
  'Geography, earth and environmental studies':'Geografía, Tierra y medioambiente',
+ 'Physics and astronomy':'Física y astronomía','Mathematical sciences':'Ciencias matemáticas','Medical sciences':'Ciencias médicas',
+ 'Health and social care':'Salud y atención social','Combined and general studies':'Estudios combinados y generales',
+ 'History and archaeology':'Historia y arqueología','English studies':'Estudios ingleses','Education and teaching':'Educación y docencia',
+ 'General, applied and forensic sciences':'Ciencias generales, aplicadas y forenses','Celtic studies':'Estudios célticos',
+ 'Aerospace, aeronautical, astronautical, and space engineering':'Ingeniería aeroespacial, aeronáutica y astronáutica',
+ 'Agricultural, animal, plant, and veterinary sciences':'Ciencias agrícolas, animales, vegetales y veterinarias',
+ 'Area, ethnic, cultural, gender, and group studies':'Estudios regionales, étnicos, culturales, de género y de grupos',
+ 'Astronomy and astrophysics':'Astronomía y astrofísica','Biochemistry, biophysics, and molecular biology':'Bioquímica, biofísica y biología molecular',
+ 'Bioinformatics, biostatistics, and computational biology':'Bioinformática, bioestadística y biología computacional',
+ 'Biological and biomedical sciences, general':'Ciencias biológicas y biomédicas generales',
+ 'Biological and biomedical sciences, other':'Otras ciencias biológicas y biomédicas',
+ 'Biological, biomedical, and biosystems engineering':'Ingeniería biológica, biomédica y de biosistemas',
+ 'Business administration and management':'Administración y dirección de empresas','Business, other':'Otras áreas de empresa',
+ 'Cell/ cellular biology and anatomy':'Biología celular y anatomía','Chemical and petroleum engineering':'Ingeniería química y del petróleo',
+ 'Civil, environmental, and transportation engineering':'Ingeniería civil, ambiental y del transporte',
+ 'Communication and journalism':'Comunicación y periodismo','Computer and information sciences, other':'Otras ciencias informáticas y de la información',
+ 'Counseling and applied psychology':'Orientación y psicología aplicada','Ecology, evolutionary biology, and epidemiology':'Ecología, biología evolutiva y epidemiología',
+ 'Education leadership and administration':'Dirección y administración educativa','Education research':'Investigación educativa',
+ 'Education, other':'Otras áreas de educación','Electrical and computer engineering':'Ingeniería eléctrica e informática',
+ 'Engineering technologies':'Tecnologías de ingeniería','Engineering, other':'Otras ingenierías','Genetics and genomics':'Genética y genómica',
+ 'Geological and earth sciences':'Geología y ciencias de la Tierra','Health sciences, other':'Otras ciencias de la salud',
+ 'Humanities, other':'Otras humanidades','Industrial engineering and operations research':'Ingeniería industrial e investigación operativa',
+ 'Interdisciplinary computer sciences':'Informática interdisciplinar','Materials and mining engineering':'Ingeniería de materiales y minas',
+ 'Materials sciences':'Ciencia de materiales','Mechanical engineering':'Ingeniería mecánica','Microbiology and immunology':'Microbiología e inmunología',
+ 'Multidisciplinary/ interdisciplinary sciences, other':'Otras ciencias multidisciplinares e interdisciplinares',
+ 'Multidisciplinary/ interdisciplinary studies':'Estudios multidisciplinares e interdisciplinares',
+ 'Natural resources and conservation':'Recursos naturales y conservación','Neurobiology and neurosciences':'Neurobiología y neurociencias',
+ 'Non-science and engineering, other':'Otras áreas fuera de ciencias e ingeniería','Nursing and nursing science':'Enfermería y ciencias de la enfermería',
+ 'Ocean, marine, and atmospheric sciences':'Ciencias oceánicas, marinas y atmosféricas','Pharmacology and toxicology':'Farmacología y toxicología',
+ 'Pharmacy and pharmaceutical sciences':'Farmacia y ciencias farmacéuticas','Physiology, oncology, and cancer biology':'Fisiología, oncología y biología del cáncer',
+ 'Psychology, other':'Otras áreas de psicología','Public administration and social services':'Administración pública y servicios sociales',
+ 'Research and experimental psychology':'Psicología experimental y de investigación','Social sciences, other':'Otras ciencias sociales',
+ 'Teacher education and teaching fields':'Formación del profesorado y áreas de docencia',
+ 'Aerospace, aeronautical, and astronautical engineering':'Ingeniería aeroespacial, aeronáutica y astronáutica',
+ 'Agricultural engineering':'Ingeniería agrícola','Agricultural sciences':'Ciencias agrícolas','Animal sciences':'Ciencias animales',
+ 'Atmospheric sciences and meteorology':'Ciencias atmosféricas y meteorología','Biochemistry':'Bioquímica','Biochemistry and biophysics':'Bioquímica y biofísica',
+ 'Bioengineering and biomedical engineering':'Bioingeniería e ingeniería biomédica',
+ 'Biomathematics, bioinformatics, and computational biology':'Biomatemáticas, bioinformática y biología computacional',
+ 'Biophysics':'Biofísica','Botany and plant biology':'Botánica y biología vegetal','Cell, cellular biology, and molecular biology':'Biología celular y molecular',
+ 'Chemical engineering':'Ingeniería química','Chemistry, except biochemistry':'Química, excepto bioquímica',
+ 'Chemistry, other, except biochemistry':'Otras áreas de química, excepto bioquímica','Civil engineering':'Ingeniería civil',
+ 'Communication disorders sciences and services':'Ciencias y atención de los trastornos de la comunicación','Computer engineering':'Ingeniería informática',
+ 'Educational and school psychology':'Psicología educativa y escolar','Electrical, electronics, and communications engineering':'Ingeniería eléctrica, electrónica y de comunicaciones',
+ 'Engineering mechanics, physics, and science':'Mecánica, física y ciencias de la ingeniería',
+ 'Epidemiology, ecology, and population biology':'Epidemiología, ecología y biología de poblaciones',
+ 'Fish, fisheries, wildlife, and wildlands science and management':'Ciencia y gestión de pesca, fauna silvestre y espacios naturales',
+ 'Food sciences and technology':'Ciencia y tecnología de los alimentos','Forestry':'Ciencias forestales','Genetics':'Genética',
+ 'Geography and cartography':'Geografía y cartografía','Geological and earth sciences, geosciences':'Geología y ciencias de la Tierra',
+ 'Geosciences, atmospheric sciences, and ocean sciences':'Ciencias de la Tierra, la atmósfera y los océanos',
+ 'Hospital and medical administration services':'Administración hospitalaria y sanitaria','Immunology':'Inmunología',
+ 'Industrial and manufacturing engineering':'Ingeniería industrial y de fabricación','Industrial and organizational psychology':'Psicología industrial y de las organizaciones',
+ 'Information science, studies':'Ciencias y estudios de la información','Inorganic chemistry':'Química inorgánica',
+ 'International relations and national security studies':'Relaciones internacionales y estudios de seguridad nacional','Linguistics':'Lingüística',
+ 'Mathematics and statistics, other':'Otras áreas de matemáticas y estadística','Metallurgical and materials engineering':'Ingeniería metalúrgica y de materiales',
+ 'Microbiological sciences':'Ciencias microbiológicas','Microbiological sciences and immunology':'Ciencias microbiológicas e inmunología',
+ 'Natural resource conservation, research, management, and policy':'Conservación, investigación, gestión y políticas de recursos naturales',
+ 'Neurobiology and neuroscience':'Neurobiología y neurociencia','Nuclear engineering':'Ingeniería nuclear','Nutrition sciences':'Ciencias de la nutrición',
+ 'Ocean sciences and marine sciences':'Ciencias oceánicas y marinas','Oceanography, chemical and physical':'Oceanografía química y física',
+ 'Organic chemistry':'Química orgánica','Other biological sciences':'Otras ciencias biológicas','Other engineering':'Otras ingenierías',
+ 'Other social sciences':'Otras ciencias sociales','Pharmacy, pharmaceutical sciences, and administration':'Farmacia, ciencias farmacéuticas y administración farmacéutica',
+ 'Physiology, pathology, and related sciences':'Fisiología, patología y ciencias afines','Plant sciences':'Ciencias vegetales','Psychology, general':'Psicología general',
+ 'Registered nursing, nursing administration, nursing research':'Enfermería, administración e investigación en enfermería',
+ 'Soil sciences':'Ciencias del suelo','Urban studies, affairs':'Estudios y asuntos urbanos','Zoology':'Zoología',
 }
 def fieldlabel(s):return bi(translations.get(s,s),s)
 broad = ['Agricultural sciences and natural resources','Biological and biomedical sciences','Computer and information sciences','Engineering','Geosciences, atmospheric, and ocean sciences','Health sciences','Mathematics and statistics','Multidisciplinary/ interdisciplinary sciences','Physical sciences','Psychology','Social sciences','Business','Education','Humanities','Visual and performing arts','Other non-science and engineering']
@@ -145,6 +208,11 @@ econ=pd.read_stata(p).fillna('')
 placements=[]
 for i,r in econ.iterrows():
  placements.append(dict(id=f'econ-{i}',name=str(r['name']),year=int(r['year']) if num(r['year']) else None,employer=str(r['placement']),institution=str(r['inst']),field=str(r['primary_field']),type=str(r['type']),originalRegion=str(r['region'])))
+by_id={r['id']:r for r in placements}
+for correction in json.loads((ROOT/'data/placement-corrections.json').read_text()):
+ row=by_id[correction['id']]
+ assert row['employer']==correction['employer'], 'Review corrections when updating the source edition'
+ row.update(reviewedType=correction['reviewedType'],classificationSource=correction['source'])
 write('placements.json',placements)
 sources=list(csv.DictReader((ROOT/'data/source-directory.csv').open()))
 write('sources.json',sources)

@@ -80,6 +80,22 @@ FUNCTION_PATTERNS=[(i,re.compile(p)) for i,p in FUNCTION_RULES]
 def norm(s):
     return ' '.join(''.join(c for c in unicodedata.normalize('NFKD', s or '') if not unicodedata.combining(c)).lower().split())
 
+def organisation_key(name):
+    """Orthographic variants only: keep word order and all distinguishing words."""
+    return re.sub(r'^the\s+', '', ' '.join(re.sub(r'[^\w\s]', ' ', norm(name)).split()))
+
+# A named university establishes an organisation category, even when its exact
+# ROR identity is unresolved. Never turn that category evidence into an ID match.
+UNIVERSITY = re.compile(r'\b(university|universities|universite|universidad|universidade|universitat|universita|universiteit|universitesi|uniwersytet|universitet|instituto universitario|medical school|school of medicine)\b')
+NON_UNIVERSITY = re.compile(r'\b(press|publishing|publisher|hospital\w*|clinic\w*|klinik\w*|medical cent(?:er|re)|health cent(?:er|re)|health network|health system|foundation|fundacao|fundacion|association|associacao|associacion|society|sociedad|sociedade|company|corporation|inc|ltd|llc|gmbh|limited|enterprise\w*|consult\w*|ventures?|holdings?|bank|banco|hotel|bookstore|museum|museu|museo|network|nhs)\b')
+ACADEMIC_UNIT = re.compile(r'\b(faculty|faculdade|facultad|faculte|fakultat|school|department|departamento|departement|instituto|institute|institut|college|campus|centro|centre|center|laboratory|laboratoire|laboratorio)\b')
+
+def university_name_evidence(name):
+    text=organisation_key(name)
+    # Composite employers cannot safely be collapsed to one sector.
+    return bool(len(text)>=12 and UNIVERSITY.search(text) and not NON_UNIVERSITY.search(text)
+                and not re.search(r';|\s/\s|\s(?:and|&)\s', norm(name)))
+
 def classify_field(doctorate):
     # The ubiquitous degree name must never classify every PhD as philosophy.
     text = norm(doctorate.get('department','') + ' ' + doctorate.get('role',''))
@@ -92,9 +108,10 @@ def classify_function(role):
     return next((i for i,p in FUNCTION_PATTERNS if p.search(text)),0)
 
 class Organisations:
-    def __init__(self):
-        self.rows=json.loads((RAW/'ror/v2.12-2026-08-25-ror-data.json').read_text())
+    def __init__(self, rows=None):
+        self.rows=rows if rows is not None else json.loads((RAW/'ror/v2.12-2026-08-25-ror-data.json').read_text())
         self.by_id={}; self.by_grid={}; self.by_name=defaultdict(set)
+        self.by_key=defaultdict(set); self.by_acronym=defaultdict(set)
         for n,r in enumerate(self.rows):
             self.by_id[r['id'].removeprefix('https://ror.org/')]=n
             for x in r['external_ids']:
@@ -102,11 +119,48 @@ class Organisations:
                     for value in x['all']:self.by_grid[value]=n
             countries={loc['geonames_details']['country_code'] for loc in r['locations']}
             for name in r['names']:
-                # Short acronyms collide and may not represent the named employer.
-                if name['types']==['acronym']:continue
+                if name['types']==['acronym']:
+                    key=norm(name['value'])
+                    if len(key)>=4:
+                        for country in countries:self.by_acronym[(key,country)].add(n)
+                    continue
                 key=norm(name['value'])
                 if len(key)<5:continue
-                for country in countries:self.by_name[(key,country)].add(n)
+                for country in countries:
+                    self.by_name[(key,country)].add(n)
+                    self.by_key[(organisation_key(key),country)].add(n)
+
+    def matched(self,n,method,**evidence):
+        r=self.rows[n]; types=r['types']; keys=[s[0] for s in SECTORS]
+        sector=next((keys.index(k) for k in ['education','company','healthcare','government','nonprofit','facility','other'] if k in types),0)
+        # Some ROR medical schools have only "other"/"funder". ROR's own
+        # definition places medical schools in education, not healthcare.
+        if sector in (0,7) and any(university_name_evidence(x['value']) for x in r.get('names',[]) if 'acronym' not in x['types']):
+            sector=1; evidence['sectorRule']='education-name'
+        return {'sector':sector,'method':method,'ror':r['id'],'rorTypes':types,**evidence}
+
+    def named(self,name,country):
+        for index,key,method in [(self.by_name,norm(name),'exact-name-country'),(self.by_key,organisation_key(name),'normalised-name-country')]:
+            candidates=index.get((key,country),set())
+            if len(candidates)==1:return next(iter(candidates)),method
+            if candidates:return None,'ambiguous-name'
+        if name.strip().isupper():
+            candidates=self.by_acronym.get((norm(name),country),set())
+            if len(candidates)==1:return next(iter(candidates)),'unique-acronym-country'
+        return None,'unmatched'
+
+    def university_unit(self,name,country):
+        if NON_UNIVERSITY.search(organisation_key(name)) or re.search(r';|\s/\s|\s(?:and|&)\s',norm(name)):return None
+        words=organisation_key(name).split(); candidates=set()
+        for start in range(len(words)):
+            for end in range(start+2,len(words)+1):
+                key=' '.join(words[start:end]); remainder=' '.join(words[:start]+words[end:])
+                if not ACADEMIC_UNIT.search(remainder):continue
+                found=self.by_key.get((key,country),set())
+                if len(found)==1:
+                    n=next(iter(found))
+                    if 'education' in self.rows[n]['types']:candidates.add(n)
+        return next(iter(candidates)) if len(candidates)==1 else None
 
     @lru_cache(maxsize=400000)
     def resolve(self, identifier, kind, name, country):
@@ -117,13 +171,27 @@ class Organisations:
         elif kind.upper()=='GRID':
             n=self.by_grid.get(identifier.removeprefix('https://www.grid.ac/institutes/'))
             if n is not None:method='grid-id'
-        if n is None:
-            candidates=self.by_name.get((norm(name),country),set())
-            if len(candidates)==1:n=next(iter(candidates));method='exact-name-country'
-        if n is None:return {'sector':0,'method':'unmatched','ror':''}
-        r=self.rows[n]; types=r['types']; keys=[s[0] for s in SECTORS]
-        sector=next((keys.index(k) for k in ['education','company','healthcare','government','nonprofit','facility','other'] if k in types),0)
-        return {'sector':sector,'method':method,'ror':r['id'],'rorTypes':types}
+        named,name_method=self.named(name,country)
+        if named is not None:
+            # ORCID identifiers are assertions too. A full, unique name/country
+            # match must not silently inherit an unrelated employer's sector.
+            if n is not None and n!=named and name_method!='unique-acronym-country':
+                linked={x['id'] for x in self.rows[n].get('relationships',[])}
+                if self.rows[named]['id'] not in linked:
+                    return self.matched(named,'name-id-conflict',conflictingRor=self.rows[n]['id'])
+            if n is None:return self.matched(named,name_method)
+        if n is not None:
+            match=self.matched(n,method)
+            if match['sector']==2 and university_name_evidence(name):
+                return {'sector':1,'method':'education-name-id-conflict','ror':'','conflictingRor':match['ror']}
+            return match
+        parent=self.university_unit(name,country)
+        if parent is not None:
+            # This ROR record identifies the named university, not the exact unit.
+            return self.matched(parent,'university-unit',rorScope='parent')
+        if university_name_evidence(name):
+            return {'sector':1,'method':'education-name','ror':''}
+        return {'sector':0,'method':name_method,'ror':''}
 
     def enrich(self,a):
         return {**a, 'classification':self.resolve(a['organizationId'],a['organizationIdType'],a['organization'],a['country']), 'function':classify_function(a['role'])}
@@ -143,7 +211,7 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True)
     # Only files owned by this builder; never remove research inputs.
     for p in OUT.glob('*.json.gz'):p.unlink()
-    orgs=Organisations(); counts=Counter(); country_counts=Counter(); job_countries=Counter(); field_counts=Counter(); methods=Counter()
+    orgs=Organisations(); counts=Counter(); country_counts=Counter(); job_countries=Counter(); field_counts=Counter(); methods=Counter(); sector_counts=Counter()
     groups={g:{'orgs':[],'roles':[],'rows':[]} for g in ['europe','us','other']}
     maps={g:({'':0},{'':0}) for g in groups}
     for g in groups:groups[g]['orgs'].append('');groups[g]['roles'].append('')
@@ -205,6 +273,7 @@ def main():
             counts['internationalLatest']+=int(bool(last['country']) and bool(phd['country']) and last['country']!=phd['country'])
             counts['ambiguousSameYearFirst']+=ambiguous
             country_counts[phd['country']]+=1;field_counts[field]+=1;methods[last['classification']['method']]+=1
+            sector_counts[SECTORS[last['classification']['sector']][0]]+=1
             for job in jobs:job_countries[job['country']]+=1
             if len(detail_rows)==500:
                 details.append({**write_gzip(OUT/f'detail-{detail_num:04d}.json.gz',detail_rows),'records':len(detail_rows)})
@@ -216,7 +285,7 @@ def main():
     labels=lambda rows:[{'id':a[0],'es':a[1],'en':a[2]} for a in rows]
     manifest={'version':1,'complete':complete,'snapshot':SNAPSHOT,'edition':'2026-09-19','counts':dict(counts),
               'fields':labels(FIELDS),'sectors':labels(SECTORS),'functions':labels(FUNCTIONS),'europe':sorted(EUROPE),
-              'doctoralCountries':dict(country_counts.most_common()),'employmentCountries':dict(job_countries.most_common()),'fieldCounts':dict(field_counts),'organisationMatches':dict(methods),
+              'doctoralCountries':dict(country_counts.most_common()),'employmentCountries':dict(job_countries.most_common()),'fieldCounts':dict(field_counts),'organisationMatches':dict(methods),'latestSectorCounts':dict(sector_counts),
               'indexes':indexes,'details':details,'archive':{k:status.get(k) for k in ['status','source','md5','sha256','counts','compressedBytesRead']},
               'sources':[
                  {'id':'orcid','title':'ORCID Public Data File 2025','url':'https://doi.org/10.23640/07243.30375589','license':'CC0 1.0','snapshot':SNAPSHOT},
@@ -228,7 +297,8 @@ def main():
                 'First observed job is not necessarily the first actual job. Chronology within the same period is uncertain when months or days are missing.',
                 'Fields are rule-based from doctoral education text; unknown and multiple are retained. These are not official ISCED/FORD codes.',
                 'Degree recognition uses explicit multilingual text markers; unrecognised labels are excluded. Visiting, exchange, sandwich and postdoctoral education entries are not treated as completed PhDs.',
-                'Sector is an ROR organisation type using identifiers or a unique exact name plus reported country. Unmatched stays unknown.',
+                'Sector uses ROR identifiers, unique names and country, orthographic variants, or an explicitly named university. University units and name-only category evidence are labelled separately from exact organisation identity. Ambiguous and insufficient evidence remains unknown.',
+                'A unique full name/country match overrides an unrelated conflicting identifier; the conflict and original assertion are retained. Publishers, hospitals, companies and composite employer names are excluded from name-only university inference.',
                 'Country is the institution location, not nationality. The reported job country is never replaced by headquarters country.',
                 'Europe convention includes all Russia, Turkey and Cyprus; it does not mean EU membership.']}
     (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')

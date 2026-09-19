@@ -56,6 +56,8 @@ export type Placement = {
   field: string;
   type: string;
   originalRegion: string;
+  reviewedType?: string;
+  classificationSource?: string;
 };
 export type Source = {
   id: string;

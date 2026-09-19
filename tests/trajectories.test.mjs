@@ -42,8 +42,8 @@ test('all career detail files match published hashes; sampled records preserve e
         assert.ok(!/"(?:email|phone|birthdate|gender|address)"\s*:/.test(JSON.stringify(row)));
         for(const job of row.employments) {
           assert.ok(job.start && job.start[0]<=2025);assert.ok(job.country);
-          assert.ok(['unmatched','ror-id','grid-id','exact-name-country'].includes(job.classification.method));
-          if(job.classification.method==='unmatched') assert.equal(job.classification.sector,0);
+          assert.ok(['unmatched','ambiguous-name','ror-id','grid-id','exact-name-country','normalised-name-country','unique-acronym-country','university-unit','education-name','education-name-id-conflict','name-id-conflict'].includes(job.classification.method));
+          if(['unmatched','ambiguous-name'].includes(job.classification.method)) assert.equal(job.classification.sector,0);
         }
       }
     }

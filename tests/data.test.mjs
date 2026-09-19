@@ -120,8 +120,18 @@ test("all integrated sources retain provenance and explicit observation semantic
     for (const r of d.records)
       assert.equal(r.values.length, d.categories.length);
   }
-  assert.equal(read("sources.json").length, 75);
+  assert.equal(read("sources.json").length, 76);
   assert.ok(
     read("manifest.json").every((s) => s.sha256 && s.retrieved && s.url),
   );
+});
+
+// Category repairs must remain reviewable and never replace the source label.
+test("reviewed placement categories preserve original values and evidence", () => {
+  const rows=read("placements.json");
+  const repaired=rows.filter(r=>r.reviewedType);
+  assert.equal(repaired.length,23);
+  for(const r of repaired) { assert.equal(r.type,"private"); assert.ok(r.classificationSource.startsWith("https://")); }
+  assert.equal(rows.find(r=>r.id==="econ-0").reviewedType,"central_bank");
+  assert.equal(rows.find(r=>r.id==="econ-11").reviewedType,undefined);
 });

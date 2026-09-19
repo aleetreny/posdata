@@ -284,9 +284,9 @@ try {
   await page.getByRole("searchbox", { name: "Buscar fuentes" }).fill("ORCID");
   assert.ok((await page.locator(".sources-list details").count()) > 0);
   await page.getByRole("button", { name: "Borrar búsqueda" }).click();
-  await page.locator("#priority").selectOption("A");
+  await page.locator("#source-usage").selectOption("integrated");
   assert.ok((await page.locator(".sources-list details").count()) > 0);
-  record("all 75 source disclosures, search and priority");
+  record("all source disclosures, search and integration filter");
   await go("tables");
   let tablesTested = 0;
   for (let n = 0; n < 10; n++) {

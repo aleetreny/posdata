@@ -1,0 +1,163 @@
+[
+  {
+    "id": "econ-0",
+    "employer": "Bank of Thailand - Economist",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-66",
+    "employer": "Federal Bank of New York - Economist",
+    "reviewedType": "central_bank",
+    "source": "https://www.newyorkfed.org/aboutthefed",
+    "reason": "Source uses Federal Bank of New York for the New York Fed; original category private."
+  },
+  {
+    "id": "econ-220",
+    "employer": "Federal Bank of New York - Economist",
+    "reviewedType": "central_bank",
+    "source": "https://www.newyorkfed.org/aboutthefed",
+    "reason": "Source uses Federal Bank of New York for the New York Fed; original category private."
+  },
+  {
+    "id": "econ-238",
+    "employer": "Bank of Thailand - Economist",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-361",
+    "employer": "Federal Bank of New York - Economist",
+    "reviewedType": "central_bank",
+    "source": "https://www.newyorkfed.org/aboutthefed",
+    "reason": "Source uses Federal Bank of New York for the New York Fed; original category private."
+  },
+  {
+    "id": "econ-370",
+    "employer": "Bank of Thailand - Economist",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-1101",
+    "employer": "Bank of Japan",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-1447",
+    "employer": "Bank of Portugal",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-2129",
+    "employer": "Research Economist, Bank of France",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-2148",
+    "employer": "Research Economist, Bank of Portugal",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-2230",
+    "employer": "Senior Economist at the Center for Excellence in Finance and Economic Research (CEFER) of the Bank of Lithuania",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-3392",
+    "employer": "Bank of International Settlements",
+    "reviewedType": "international_org",
+    "source": "https://www.bis.org/about/faqs",
+    "reason": "BIS is an international organisation; original source labelled it private."
+  },
+  {
+    "id": "econ-3423",
+    "employer": "Bank of France",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-3904",
+    "employer": "Bank of Portugal",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-4049",
+    "employer": "Bank of Japan, Research Economist",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-4484",
+    "employer": "Research Economist, Bank of France",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-4543",
+    "employer": "Bank of Japan",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-4757",
+    "employer": "Bank of Japan",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-5167",
+    "employer": "Research Economist, Analysis and Research Department, Bank of Slovenia",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-5576",
+    "employer": "Bank of Hungary",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-5746",
+    "employer": "Bank of Thailand",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  },
+  {
+    "id": "econ-6480",
+    "employer": "Bank of International Settlements, Switzerland",
+    "reviewedType": "international_org",
+    "source": "https://www.bis.org/about/faqs",
+    "reason": "BIS is an international organisation; original source labelled it private."
+  },
+  {
+    "id": "econ-6506",
+    "employer": "Bank of Lithuania",
+    "reviewedType": "central_bank",
+    "source": "https://www.bis.org/about/organisation/members",
+    "reason": "Named central bank; original source labelled it private."
+  }
+]

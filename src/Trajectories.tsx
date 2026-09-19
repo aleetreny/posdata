@@ -67,6 +67,48 @@ function dateLabel(date: number[] | null, lang: Lang) {
   }).format(new Date(Date.UTC(date[0], date[1] - 1, date[2] || 1)));
 }
 
+function classificationLabel(method: string, lang: Lang) {
+  const labels: Record<string, [string, string]> = {
+    "ror-id": ["identificador ROR", "ROR identifier"],
+    "grid-id": ["identificador GRID", "GRID identifier"],
+    "exact-name-country": ["nombre y país exactos", "exact name and country"],
+    "normalised-name-country": [
+      "nombre y país; puntuación normalizada",
+      "name and country; normalised punctuation",
+    ],
+    "unique-acronym-country": [
+      "sigla única en ese país",
+      "unique acronym in that country",
+    ],
+    "university-unit": [
+      "unidad de la universidad indicada",
+      "unit of the named university",
+    ],
+    "education-name": [
+      "universidad explícita en el nombre; identidad sin resolver",
+      "university explicitly named; identity unresolved",
+    ],
+    "education-name-id-conflict": [
+      "universidad explícita; identificador contradictorio",
+      "university explicitly named; conflicting identifier",
+    ],
+    "name-id-conflict": [
+      "nombre y país; identificador de origen corregido",
+      "name and country; source identifier corrected",
+    ],
+    "ambiguous-name": [
+      "nombre ambiguo; sector sin resolver",
+      "ambiguous name; sector unresolved",
+    ],
+  };
+  return (
+    labels[method]?.[lang === "es" ? 0 : 1] ||
+    (lang === "es"
+      ? "evidencia insuficiente para clasificar"
+      : "insufficient evidence to classify")
+  );
+}
+
 export default function Trajectories({
   lang: l,
   navigate,
@@ -245,18 +287,21 @@ export default function Trajectories({
           </h1>
           <p>
             {t(
-              "Explora trayectorias desde la universidad del doctorado hasta el empleador. Europa como punto de partida; el mundo como destino.",
-              "Follow careers from the doctoral university to the employer. Start in Europe, follow the paths worldwide.",
+              "Busca ejemplos de personas, universidades y empresas por disciplina. Empieza con doctorados de Europa o amplía la búsqueda a todo el mundo.",
+              "Find people, universities and companies by discipline. Start with European doctorates or expand your search worldwide.",
             )}
           </p>
         </div>
-        <a className="text-link" href="#university-evidence">
+        <button
+          className="text-link trajectory-statistics-link"
+          onClick={() => navigate("atlas")}
+        >
           {t(
-            "También: listas de universidades",
-            "Also: university placement lists",
+            "¿Buscas porcentajes y salarios?",
+            "Looking for percentages and salaries?",
           )}{" "}
-          <ArrowRight size={17} />
-        </a>
+          {t("Ver estadísticas", "View statistics")} <ArrowRight size={17} />
+        </button>
       </div>
       <div className="trajectory-mobile-jump" aria-live="polite">
         {busy || !results ? (
@@ -321,25 +366,66 @@ export default function Trajectories({
                 )}
             </select>
           </label>
-          <label className="trajectory-search">
-            {t(
-              "Persona, universidad, empresa o puesto",
-              "Person, university, company or role",
-            )}
-            <span>
-              <Search size={18} />
-              <input
-                type="search"
-                value={filters.q}
-                onChange={(e) => change({ q: e.target.value })}
-                placeholder={t(
-                  "Por ejemplo: Oxford, engineer, Siemens…",
-                  "For example: Oxford, engineer, Siemens…",
+          <label>
+            {t("Sector del empleador", "Employer sector")}
+            <select
+              value={filters.sector}
+              onChange={(e) => change({ sector: e.target.value })}
+              disabled={!manifest}
+            >
+              {manifest &&
+                options(
+                  manifest.sectors,
+                  t("Todos los sectores", "All sectors"),
                 )}
-              />
-            </span>
+            </select>
           </label>
+          <div className="trajectory-search-group">
+            <label className="trajectory-search-scope">
+              {t("Buscar en", "Search in")}
+              <select
+                value={filters.searchIn}
+                onChange={(e) => change({ searchIn: e.target.value })}
+              >
+                <option value="all">
+                  {t("Todos los campos", "All fields")}
+                </option>
+                <option value="doctoral">
+                  {t("Universidad del doctorado", "Doctoral university")}
+                </option>
+                <option value="employer">{t("Empleador", "Employer")}</option>
+                <option value="person">{t("Persona", "Person")}</option>
+                <option value="role">{t("Puesto", "Job title")}</option>
+              </select>
+            </label>
+            <label className="trajectory-search">
+              <span className="sr-only">
+                {t(
+                  "Persona, universidad, empresa o puesto",
+                  "Person, university, company or role",
+                )}
+              </span>
+              <span>
+                <Search size={18} />
+                <input
+                  type="search"
+                  value={filters.q}
+                  onChange={(e) => change({ q: e.target.value })}
+                  placeholder={t(
+                    "Por ejemplo: Oxford, engineer, Siemens…",
+                    "For example: Oxford, engineer, Siemens…",
+                  )}
+                />
+              </span>
+            </label>
+          </div>
         </div>
+        <p className="trajectory-sector-help">
+          {t(
+            "El sector describe al empleador: las universidades públicas y privadas pertenecen a «Universidades y educación».",
+            "Sector describes the employer: public and private universities both belong to ‘Universities & education’.",
+          )}
+        </p>
         <details className="trajectory-more-filters">
           <summary>
             <SlidersHorizontal size={17} />
@@ -387,19 +473,6 @@ export default function Trajectories({
                     {countryName(c, l)}
                   </option>
                 ))}
-              </select>
-            </label>
-            <label>
-              {t("Sector del empleador", "Employer sector")}
-              <select
-                value={filters.sector}
-                onChange={(e) => change({ sector: e.target.value })}
-              >
-                {manifest &&
-                  options(
-                    manifest.sectors,
-                    t("Todos los sectores", "All sectors"),
-                  )}
               </select>
             </label>
             <label>
@@ -497,6 +570,51 @@ export default function Trajectories({
             </button>
           )}
         </div>
+        {manifest &&
+          (filters.employer ||
+            filters.destination ||
+            filters.role ||
+            filters.mobility ||
+            filters.from ||
+            filters.to) && (
+            <div
+              className="trajectory-filter-chips"
+              aria-label={t("Filtros aplicados", "Applied filters")}
+            >
+              {(
+                [
+                  ["employer", filters.employer],
+                  [
+                    "destination",
+                    filters.destination
+                      ? t("Empleo en ", "Job in ") +
+                        countryName(filters.destination, l)
+                      : "",
+                  ],
+                  ["role", manifest.functions[Number(filters.role)]?.[l]],
+                  [
+                    "mobility",
+                    filters.mobility === "international"
+                      ? t("Otro país", "Another country")
+                      : t("Mismo país", "Same country"),
+                  ],
+                  ["from", t("Desde ", "From ") + filters.from],
+                  ["to", t("Hasta ", "To ") + filters.to],
+                ] as const
+              )
+                .filter(([key]) => filters[key])
+                .map(([key, label]) => (
+                  <button
+                    key={key}
+                    onClick={() => change({ [key]: "" })}
+                    aria-label={`${t("Quitar filtro", "Remove filter")}: ${label}`}
+                  >
+                    {label}
+                    <X size={14} />
+                  </button>
+                ))}
+            </div>
+          )}
       </section>
       {error ? (
         <div className="trajectory-status" role="alert">
@@ -783,8 +901,8 @@ export default function Trajectories({
           <div>
             <p>
               {t(
-                "La disciplina se clasifica con reglas sobre el título y departamento del doctorado. El sector usa ROR; la función se deriva del nombre del puesto. Conservamos los textos originales, los casos sin identificar y las fechas incompletas.",
-                "Discipline is classified using rules on the doctoral degree and department. Sector uses ROR; function comes from the job title. Original wording, unknown categories and incomplete dates are retained.",
+                "La disciplina se clasifica con reglas sobre el título y departamento del doctorado. El sector combina ROR con reglas sobre nombres de organizaciones; la función se deriva del nombre del puesto. Conservamos los textos originales, los casos sin identificar y las fechas incompletas.",
+                "Discipline is classified using rules on the doctoral degree and department. Sector combines ROR with rules on organisation names; function comes from the job title. Original wording, unknown categories and incomplete dates are retained.",
               )}
             </p>
             <p>
@@ -892,13 +1010,13 @@ function CareerDistributions({
           entries={results.organisations.slice(0, 6)}
           total={results.total}
           name={(key) => key}
-          onChoose={(key) => change({ q: key })}
+          onChoose={(key) => change({ employer: key })}
           lang={l}
         />
         <p className="distribution-caveat">
           {t(
-            "El sector procede del tipo de organización en ROR. «Sin identificar» se conserva en el denominador. Nombres distintos pueden corresponder al mismo empleador.",
-            "Sector comes from the organisation type in ROR. Unidentified sectors stay in the denominator. Different names can refer to the same employer.",
+            "El sector combina ROR y reglas sobre nombres; cada ficha explica el criterio. «Sin identificar» se conserva en el denominador. Nombres distintos pueden corresponder al mismo empleador.",
+            "Sector combines ROR and name-based rules; each history explains the evidence. Unidentified sectors stay in the denominator. Different names can refer to the same employer.",
           )}
         </p>
       </details>
@@ -1006,14 +1124,52 @@ function CareerEvidence({
               : t("fuente sin identificar", "unspecified source")}
           {a.sourceName ? ` (${a.sourceName})` : ""}.
         </small>
+        {!isPhd && (
+          <small className="sector-evidence">
+            <strong>{manifest.sectors[a.classification.sector][l]}</strong>
+            {" · "}
+            {classificationLabel(a.classification.method, l)}.
+            {a.classification.sectorRule &&
+              " " +
+                t(
+                  "Categoría educativa por el nombre; tipo ROR original: ",
+                  "Education category from the name; original ROR type: ",
+                ) +
+                a.classification.rorTypes?.join(", ") +
+                "."}
+            {!a.classification.sector &&
+              " " +
+                t(
+                  "Sin identificar no significa empresa privada.",
+                  "Unidentified does not mean a private company.",
+                )}
+          </small>
+        )}
         {a.classification.ror && (
           <a href={a.classification.ror} target="_blank" rel="noreferrer">
-            {t("Organización en ROR", "Organisation in ROR")} ·{" "}
-            {a.classification.method === "exact-name-country"
-              ? t("nombre y país exactos", "exact name & country")
-              : t("identificador", "identifier")}
+            {a.classification.rorScope === "parent"
+              ? t(
+                  "Universidad de referencia en ROR",
+                  "Reference university in ROR",
+                )
+              : t("Organización en ROR", "Organisation in ROR")}
             <ArrowUpRight size={12} />
           </a>
+        )}
+        {a.classification.conflictingRor && (
+          <small>
+            <a
+              href={a.classification.conflictingRor}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t(
+                "Identificador de origen en conflicto",
+                "Conflicting source identifier",
+              )}
+              <ArrowUpRight size={12} />
+            </a>
+          </small>
         )}
       </div>
     </li>

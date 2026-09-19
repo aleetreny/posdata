@@ -121,6 +121,7 @@ function aggregate(f: TrajectoryFilters) {
       if (f.destination && r[k + 1] !== f.destination) continue;
       if (f.field && String(r[5]) !== f.field) continue;
       if (f.sector && String(r[k + 4]) !== f.sector) continue;
+      if (f.employer && part.orgs[r[k] as number] !== f.employer) continue;
       if (f.role && String(r[k + 5]) !== f.role) continue;
       if (f.from && r[4] < Number(f.from)) continue;
       if (f.to && r[4] > Number(f.to)) continue;
@@ -128,14 +129,16 @@ function aggregate(f: TrajectoryFilters) {
       if (f.mobility === "international" && !moved) continue;
       if (f.mobility === "domestic" && (!r[3] || !r[k + 1] || moved)) continue;
       if (search.length) {
+        const values = {
+          person: `${r[0]} ${r[1]}`,
+          doctoral: part.orgs[r[2]],
+          employer: part.orgs[r[k] as number],
+          role: part.roles[r[k + 2] as number],
+        };
         const text = fold(
-          [
-            r[0],
-            r[1],
-            part.orgs[r[2]],
-            part.orgs[r[k] as number],
-            part.roles[r[k + 2] as number],
-          ].join(" "),
+          f.searchIn in values
+            ? values[f.searchIn as keyof typeof values]
+            : Object.values(values).join(" "),
         );
         if (!search.every((word) => text.includes(word))) continue;
       }

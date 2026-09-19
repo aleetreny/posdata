@@ -14,7 +14,7 @@ El manifiesto `public/data/trajectories/manifest.json` es la referencia de los r
 
 Se revisaron **26.078.951 perfiles** del archivo completo. **808.860 identificadores ORCID** cumplen las reglas y reúnen **1.723.995 registros laborales** después de eliminar afirmaciones laborales exactamente duplicadas dentro de cada perfil. De esos perfiles, **310.582** tienen su doctorado de referencia en Europa, **194.140** en Estados Unidos y **304.138** en otros lugares.
 
-La disciplina queda sin identificar en 176.795 perfiles (21,9 %) y aparece como varias áreas en 109.738 (13,6 %). El sector del último inicio laboral queda sin identificar en 217.059 perfiles (26,8 %). Las categorías desconocidas permanecen en los denominadores. Estas proporciones describen la cobertura de este archivo, no la distribución poblacional de titulados ni sus probabilidades de empleo.
+La disciplina queda sin identificar en 176.795 perfiles (21,9 %) y aparece como varias áreas en 109.738 (13,6 %). El sector del último inicio laboral queda sin identificar en 133.178 perfiles (16,5 %). Las categorías desconocidas permanecen en los denominadores. Estas proporciones describen la cobertura de este archivo, no la distribución poblacional de titulados ni sus probabilidades de empleo.
 
 Entre los perfiles con doctorado europeo, 17.400 tienen en Estados Unidos el empleo con inicio más reciente registrado. Es un ejemplo de cómo origen y destino se consultan por separado; no acredita residencia ni empleo vigente.
 
@@ -37,13 +37,27 @@ La normalización vuelve a aplicar las reglas de grado, por lo que un extracto i
 | Disciplina doctoral | Reglas sobre departamento y título del doctorado. Se elimina el nombre genérico «Doctor of Philosophy» y sus variantes para no atribuir Filosofía a cualquier PhD. Una coincidencia da un área; varias dan «Varias áreas declaradas»; ninguna queda sin identificar. Son categorías de navegación, no códigos FORD/ISCED validados. |
 | Organización de formación | Nombre y país declarados en la educación doctoral elegida. |
 | Organización de empleo | Nombre original del empleo. Distintas grafías pueden corresponder al mismo empleador; los rankings por nombre no consolidan equivalencias no demostradas. |
-| Sector | Tipo de organización en **ROR v2.12**, 137.398 organizaciones. Se enlaza primero por ROR ID, después por GRID y finalmente por un nombre normalizado y país que correspondan a una única organización. Un acrónimo corto o nombre ambiguo no se resuelve por parecido. Lo no enlazado sigue sin sector. |
+| Sector | Tipos de **ROR v2.12**, 137.398 organizaciones, y reglas explícitas sobre nombres educativos. Se distingue una identidad enlazada de una universidad de referencia o una categoría deducida solo del nombre. Véase el procedimiento siguiente. |
 | Función | Reglas sobre el título del puesto: posdoctorado explícito, docencia, datos/software, investigación, ingeniería, consultoría, dirección y clínica. «Research fellow» no prueba posdoctorado ni estabilidad. Las funciones no equivalen a contratos. |
 | País y movilidad | Se preserva el país del empleo declarado, incluso cuando ROR sitúa la sede de la organización en otro país. Se compara con el país del doctorado, no con ciudadanía ni residencia actual. |
 
 Los tipos ROR corresponden a su edición de agosto de 2026, aplicada a los registros históricos: no reconstruyen cambios de sector a lo largo del tiempo. ROR puede asignar varios tipos a una organización; la prioridad determinista usada por esta edición figura en el constructor. «Education» incluye universidades y otras organizaciones educativas; «facility» es infraestructura de investigación, no una prueba de contrato académico. «Añadido por integración de ORCID» no acredita por sí solo verificación del empleador.
 
 La convención de Europa incluye íntegramente Rusia, Turquía y Chipre, además de Reino Unido, Suiza y otros países no pertenecientes a la UE. La lista exacta de códigos está en el manifiesto. Todos los países siguen disponibles como filtros individuales.
+
+## Clasificación del empleador
+
+El sector describe la actividad de la organización, no su titularidad. Una universidad pública o privada pertenece a **Universidades y educación**. «Sin identificar» no significa empresa privada ni empleo fuera de la academia.
+
+1. Se consultan el identificador ROR y la correspondencia GRID declarados. También se busca una coincidencia única de nombre completo y país. Si esta señala otra organización sin relación registrada con la del identificador, se usa el nombre y se conserva el identificador en conflicto para inspeccionarlo. Por ejemplo, algunos registros de Trinity College Dublin apuntaban a un GRID de Nokia Ireland.
+2. Sin un identificador utilizable, se prueban el nombre exacto, su normalización de tildes y puntuación y los acrónimos ROR de al menos cuatro letras escritos en mayúsculas. Siempre se exige una coincidencia única en el país declarado. No se aplica emparejamiento difuso por similitud.
+3. Para una facultad, departamento u otra unidad académica, se permite enlazar una universidad de referencia cuyo nombre ROR completo aparezca de forma inequívoca en el texto. La ficha indica que se trata de la institución de referencia, no de la identidad ROR exacta de la unidad.
+4. Un nombre explícito de universidad o escuela de medicina puede justificar la categoría educativa sin resolver la identidad. Se excluyen términos que señalan hospitales, editoriales, fundaciones, asociaciones, empresas y nombres compuestos. Esta regla también puede corregir un tipo ROR genérico como «other»; el tipo original permanece visible.
+5. Los casos ambiguos sin evidencia suficiente siguen sin identificar. Se conserva el nombre original, la regla aplicada y la evidencia del enlace en cada historial. La clasificación describe esta edición y puede contener errores; no equivale a una revisión manual de cada empleador.
+
+La revisión conserva los mismos 808.860 perfiles y 1.723.995 empleos. Reduce los últimos empleos sin sector de **217.059 a 133.178** (83.881 menos), sin convertir la ausencia de información en una categoría laboral. Las pruebas incluyen facultades de Lisboa, la distinción con NOVA, variantes de Berkeley, Purdue sin campus inventado, escuelas de medicina y contraejemplos de hospitales y editoriales. Las fixtures contienen únicamente registros ROR bajo CC0.
+
+En el archivo independiente de Economía, `data/placement-corrections.json` documenta 23 correcciones de bancos centrales y BIS con enlaces de referencia. La etiqueta original se conserva junto a la revisada en la interfaz y en el CSV. El resto de etiquetas procede de la fuente histórica y no se presenta como revisado individualmente.
 
 ## Qué significan las cifras
 
@@ -65,7 +79,7 @@ Estas fichas son buscables por separado y **no se suman a ORCID**. El nombre por
 
 ## Reutilización y actualización
 
-Los originales ORCID y ROR usan CC0; las páginas universitarias no se presentan como bases con licencia abierta. Véase `DATA_LICENSES.md`. La API individual ORCID se comprobó como vía de consulta, pero la extracción masiva de esta edición usa el archivo público y sus condiciones específicas.
+Los originales ORCID y ROR usan CC0; las páginas universitarias no se presentan como bases con licencia abierta. Véase [DATA_LICENSES.md](../DATA_LICENSES.md). La API individual ORCID se comprobó como vía de consulta, pero la extracción masiva de esta edición usa el archivo público y sus condiciones específicas.
 
 Los datos de exploración se dividen por cobertura (Europa, EE. UU., otros) en archivos comprimidos; esa partición es de descarga, no una barrera conceptual para buscar. Los historiales se descargan al abrir una ficha. Un worker realiza las búsquedas y recuentos sin bloquear la escritura. Los nombres de archivo se acompañan de huellas en la URL para no reutilizar un fragmento de una edición diferente desde la caché.
 
