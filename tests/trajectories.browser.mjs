@@ -74,6 +74,10 @@ try {
  const failing=await browser.newContext();const fp=await failing.newPage();fp.setDefaultTimeout(60000);
  await fp.route('**/data/trajectories/manifest.json',route=>route.abort());await fp.goto(base);await fp.getByRole('alert').waitFor();
  await fp.unroute('**/data/trajectories/manifest.json');await fp.getByRole('button',{name:'Volver a intentar',exact:true}).click();await ready(fp);await failing.close();pass('manifest failure and retry');
+ const workerFailure=await browser.newContext();const wfp=await workerFailure.newPage();wfp.setDefaultTimeout(60000);
+ await wfp.route('**/*trajectory.worker*',route=>route.abort());await wfp.goto(base);await wfp.getByRole('alert').waitFor();
+ await wfp.unroute('**/*trajectory.worker*');await wfp.getByRole('button',{name:'Volver a intentar',exact:true}).click();await ready(wfp);
+ assert.equal(await wfp.locator('.trajectory-record').count(),25);await workerFailure.close();pass('worker script failure recreates the worker on retry');
  const wk=await webkit.launch();const wc=await wk.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});const wp=await wc.newPage();wp.setDefaultTimeout(60000);wp.on('pageerror',e=>report.errors.push('webkit '+e.message));
  await wp.goto(base+'?view=trajectories&trOrigin=US');await ready(wp);await geometry('webkit-us',wp);
  await wp.locator('.trajectory-detail-toggle').first().click();await wp.locator('.career-timeline').first().waitFor();

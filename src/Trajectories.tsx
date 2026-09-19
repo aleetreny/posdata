@@ -157,7 +157,7 @@ export default function Trajectories({
       w.terminate();
       worker.current = null;
     };
-  }, [manifest]);
+  }, [manifest, retry]);
   useEffect(() => {
     if (!manifest || !worker.current) return;
     const id = ++seq.current;
